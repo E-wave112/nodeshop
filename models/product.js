@@ -9,11 +9,13 @@ const productSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
+        trim:true,
         maxLength:100
     },
 
     image:{
-        { data: Buffer, contentType: String }
+
+         data: Buffer, contentType: String
     },
 
     description:{

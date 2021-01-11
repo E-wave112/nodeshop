@@ -116,3 +116,6 @@ dist
 .pnp.*
 #lock files
 package-lock.json
+
+##sass filess
+scss/

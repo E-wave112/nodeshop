@@ -36,3 +36,13 @@ header,
     height: 100vh;
   }
 }
+
+.form-control {
+  display:table;/* shrinks to fit content */
+  margin:auto;
+
+}
+
+select {
+  display: block  !important;
+}

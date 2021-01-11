@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Product</title>
+     <!-- Font Awesome -->
+  <!-- materialize icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <div class="form">
+        <form action="/add-product" class="form-control col s12" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    
+            <div class="row">
+                <div class="input-field">
+                    <input type="text" id="name" name="name" required> 
+                    <label for="title">Name</label>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div>
+                    <% if (categories.length > 0) { %>
+                        <label for="category"><h5>Category</h5></label>
+                    <select id="status" name="status">
+                            
+                        <% categories.forEach(category => { %>
+                        <option value="category"><%= category.category %></option>
+                       <% }) %>
+                    </select>
+                   
+                    <% } else { %> 
+                        <p>There are no categories to select</p>
+                        <% } %>
+                </div>
+            </div>
+
+    
+            <div class="row">
+                <div class="input-field">
+                    <h5>Product Description</h5>
+                    <textarea id="body" name="description"></textarea>
+                </div>
+            </div>
+    
+    
+            <div class="row">
+                <div class="input-field">
+                    <label for="image"> Upload Product Image</label>
+                    <input type="file" id="image" name="image">
+                    
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="input-field">
+                    <input type="number" id="price" name="price">
+                    <label for="price">Price</label>
+                </div>
+            </div>
+    
+            <div class="row">
+                <input type="submit" value="Save" class="btn">
+                <a href="/" class="btn orange">Cancel</a>
+            </div>
+        </form>
+    
+    </div>
+    
+</body>
+</html>
+<%- include('./partials/footer.ejs') -%> 
