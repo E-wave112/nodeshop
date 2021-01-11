@@ -1,0 +1,28 @@
+{
+  "name": "nodecommerce",
+  "version": "1.0.0",
+  "description": "an ecommmerce web application built with node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Ecommerce",
+    "online",
+    "shop"
+  ],
+  "author": "E-wave",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "mongoose": "^5.11.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1"
+  }
+}
