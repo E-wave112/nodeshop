@@ -28,7 +28,8 @@ const productSchema = new mongoose.Schema({
 
     available:{
         type:Boolean,
-        default:true
+        default:true,
+        lowercase:true
     },
 
     created:{

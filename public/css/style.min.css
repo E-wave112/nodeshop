@@ -46,3 +46,8 @@ header,
 select {
   display: block  !important;
 }
+
+
+.copyright {
+  text-align:center;
+  }

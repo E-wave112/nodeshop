@@ -119,3 +119,6 @@ package-lock.json
 
 ##sass filess
 scss/
+
+##disk image files
+uploads/
