@@ -9,6 +9,9 @@ const cookieParser = require('cookie-parser');
 const {ensureAuth} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
+const cloudinary = require("../utils/cloudinary");
+const upload = require('../utils/multer');
+const User = require('../models/User')
 const csrfProtection = csrf({cookie:true});
 
 
@@ -19,30 +22,32 @@ router.use(cookieParser())
 
 
 //multer middleware
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+// const upload = multer({ storage: storage });
 //landing page of the ecommerce app
 router.get('/', async (req,res)=>{
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
+    const user = await User.findById(req.params.id)
     const categories = await Category.find({}).sort({createdAt: -1}).lean()
     res.render('home-page', {
-        products,categories
+        products,categories,user
     })
 })
 
 //get  product details
-router.get('/product:/id', ensureAuth, async (req,res)=> {
+router.get('/product/:id', ensureAuth, async (req,res)=> {
     try {
-        const product = product.findById(req.params.id).populate('category').lean()
+        const id = mongoose.Types.ObjectId(req.params.id)
+        const Product = product.findById(id).populate('category').lean()
         res.render('product-page', {
-            product
+            Product
         })
     } catch (err) {
         console.error(err)
@@ -50,6 +55,13 @@ router.get('/product:/id', ensureAuth, async (req,res)=> {
     }
 
 
+    res.render('product-page', {
+        Product
+    })
+})
+
+router.get('/pro', ensureAuth, (req,res) => {
+    
     res.render('product-page')
 })
 
@@ -60,9 +72,10 @@ router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
        const categories  = await Category.find().sort({createdAt:-1})
        //console.log(categories)
        res.render('addproduct',{csrfToken:req.csrfToken(),categories:categories})
+
     } catch (err) {
         console.error(err)
-        res,render('error/500')  
+        res.render('error/500')
         
     }
 })
@@ -70,21 +83,19 @@ router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
 //post the filled form
 router.post('/add-product',  upload.single('image'), ensureAuth, parseForm, csrfProtection, async (req,res)=>{
     try {
+         // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
         req.body.user = req.user.id
 
-        const obj = {
+        let Product = new product({
             category: req.body.category,
             name: req.body.name,
-            image: {
-                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-                contentType: 'image/png'
-            },
+            image: result.secure_url,
             description:req.body.description,
             price:req.body.price,
-            available:req.body.available,
-        }
-
-       await product.create(obj)
+            
+        })
+       await Product.save()
         res.redirect('/')
     } catch (err) {
         console.error(err)

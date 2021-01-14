@@ -15,9 +15,11 @@ const productSchema = new mongoose.Schema({
 
     image:{
 
-         data: Buffer, contentType: String
+         type: String
     },
-
+    cloudinary_id: {
+        type: String,
+      },
     description:{
         type:String
     },

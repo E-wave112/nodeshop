@@ -14,6 +14,7 @@
   "author": "E-wave",
   "license": "MIT",
   "dependencies": {
+    "cloudinary": "^1.23.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",

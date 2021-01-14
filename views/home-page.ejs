@@ -9,94 +9,30 @@
     <div class="container">
 
       <!--Navbar-->
-      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
-
-        <!-- Navbar brand -->
-        <span class="navbar-brand">Categories:</span>
-    
-        <!-- Collapse button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="basicExampleNav">
-    
-          <!-- Links -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">All
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <% categories.forEach(category => { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><%= category.category %></a>
-                  </li>
-           <% }) %> 
-    
-          </ul>
-          <!-- Links -->
-    
-          <form class="form-inline">
-            <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            </div>
-          </form>
+      <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #929fba; color: white;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Categories</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <% categories.forEach(category => { %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#"><%= category.category %></a>
+              </li>
+              <% }) %>
+            </ul>
+          </div>
         </div>
-        <!-- Collapsible content -->
-    
-    </nav>
+      </nav>
       <!--/.Navbar-->
-
+      <br><br><br>
       <!--Section: Products v.3-->
       <section class="text-center mb-4">
 
         <!--Grid row-->
         <div class="row wow fadeIn">
-
-          <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4">
-
-            <!--Card-->
-            <div class="card">
-
-              <!--Card image-->
-              <div class="view overlay">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" class="card-img-top"
-                  alt="">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-              <!--Card image-->
-
-              <!--Card content-->
-              <div class="card-body text-center">
-                <!--Category & Title-->
-                <a href="" class="grey-text">
-                  <h5>Shirt</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="" class="dark-grey-text">Denim shirt</a>
-                  </strong>
-                </h5>
-
-                <h4 class="font-weight-bold blue-text">
-                  <strong>120$</strong>
-                </h4>
-
-              </div>
-              <!--Card content-->
-
-            </div>
-            <!--Card-->
-
-          </div>
-          <!--Grid column-->
-
           <% products.forEach(product =>{ %>
            <!--Grid column-->
            <div class="col-lg-3 col-md-6 mb-4">
@@ -106,8 +42,7 @@
 
               <!--Card image-->
               <div class="view overlay">
-                <img src="data:image/<%=product.image.contentType%>;base64,
-                <%=product.image.data.toString('base64')%>">
+                <img src="<%=product.image%>"  class="card-img-top" >
                 <a>
                   <div class="mask rgba-white-slight"></div>
                 </a>
@@ -122,12 +57,12 @@
                 </a>
                 <h5>
                   <strong>
-                    <a href="" class="dark-grey-text"><%= product.name %></a>
+                    <a href="/product/<%=product._id%>" class="dark-grey-text"><%= product.name %></a>
                   </strong>
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong><%= product.price %></strong>
+                  <strong><%= product.price %>$</strong>
                 </h4>
 
               </div>
