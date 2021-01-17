@@ -16,6 +16,12 @@ const port=process.env.PORT
 ///intitilaize the app
 const app = express()
 
+//middleware for csp for protection against xss attacks
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self';");
+    next();
+  });
+  
 //morgan middleware
 app.use(morgan('dev'))
 //set the ejs view engine
@@ -49,6 +55,8 @@ app.use(session({
     store: new MongoStore({mongooseConnection:mongoose.connection})
 }
 ))
+
+//write script logic that will enable the cart to be in session
 
 //intialize passport and passport sessions
 app.use(passport.initialize())

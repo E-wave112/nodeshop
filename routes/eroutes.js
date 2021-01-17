@@ -1,5 +1,6 @@
 //intialize express routers
 const router = require('express').Router();
+const {v4: uuid } = require('uuidv4');
 const csrf = require('csurf');
 const bodyParser= require('body-parser');
 const fs = require('fs');
@@ -13,6 +14,8 @@ const cloudinary = require("../utils/cloudinary");
 const upload = require('../utils/multer');
 const User = require('../models/User')
 const csrfProtection = csrf({cookie:true});
+const mongoose = require('mongoose')
+const nodemailer = require("nodemailer");
 
 
 //body parser middleware
@@ -42,28 +45,23 @@ router.get('/', async (req,res)=>{
 })
 
 //get  product details
-router.get('/product/:id', ensureAuth, async (req,res)=> {
+router.get('/product/:id', csrfProtection, ensureAuth, async (req,res)=> {
     try {
         const id = mongoose.Types.ObjectId(req.params.id)
-        const Product = product.findById(id).populate('category').lean()
+        const Product = await product.findById(id).populate('category').lean()
         res.render('product-page', {
-            Product
+            Product,csrfToken:req.csrfToken()
         })
     } catch (err) {
         console.error(err)
         res.render('error/404')
     }
-
-
-    res.render('product-page', {
-        Product
-    })
 })
 
-router.get('/pro', ensureAuth, (req,res) => {
+// router.get('/pro', ensureAuth, (req,res) => {
     
-    res.render('product-page')
-})
+//     res.render('product-page')
+// })
 
 //get the link to add a product to the eccomerce application using a GET request
 router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
@@ -109,9 +107,37 @@ router.get('/login', (req,res) =>{
     res.render('login')
 })
 
+
+
 //payment processing route
-router.get('/checkout', (req,res)=>{
-    res.render('checkout-page')
+router.get('/confirm',  ensureAuth, (req,res)=>{
+     // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user:process.env.user,
+        pass: process.env.pass
+    },
+
+  });
+
+   // send mail with defined transport object
+   let info =  transporter.sendMail({
+    from: '<iyayiemmanuel1@gmail.com>', // sender address
+    to: " osagieiyayi09@gmail.com", // list of receivers
+    subject: "NodeCommerce", // Subject line
+    text: "Dear customer you have successfully completed an order,your order id for this product is " + uuid(), // plain text body
+    html: `<b>Dear customer you have successfully completed an order,your order id for this product is ${uuid()}</b>`, // html body
+  },( err,info)=>{
+      if (err){
+          console.error(err)
+      }else {
+          console.log(info)
+      }
+  });
+
 })
 
 module.exports = router
