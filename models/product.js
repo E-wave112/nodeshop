@@ -6,6 +6,11 @@ const productSchema = new mongoose.Schema({
         ref:'Category'
     },
 
+    user:{
+        type:mongoose.Types.ObjectId,
+        ref:'User'
+    },
+
     name:{
         type:String,
         required:true,
@@ -17,9 +22,11 @@ const productSchema = new mongoose.Schema({
 
          type: String
     },
+
     cloudinary_id: {
         type: String,
       },
+      
     description:{
         type:String
     },

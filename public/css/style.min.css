@@ -43,6 +43,12 @@ header,
 
 }
 
+#paymentForm {
+  display: table;
+  margin: auto;
+}
+
+
 select {
   display: block  !important;
 }

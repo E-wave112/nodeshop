@@ -13,28 +13,20 @@ const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
 const upload = require('../utils/multer');
 const User = require('../models/User')
-const csrfProtection = csrf({cookie:true});
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
+const async = require('async')
 
-
+//csrf middleeware
+const csrfProtection = csrf({cookie:true});
+router.use(csrfProtection())
 //body parser middleware
 const parseForm = bodyParser.urlencoded({extended:false})
+router.use(parseForm())
 router.use(bodyParser.json())
 router.use(cookieParser())
 
 
-//multer middleware
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '-' + Date.now())
-//     }
-// });
-// const upload = multer({ storage: storage });
-//landing page of the ecommerce app
 router.get('/', async (req,res)=>{
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
     const user = await User.findById(req.params.id)
@@ -58,10 +50,6 @@ router.get('/product/:id', csrfProtection, ensureAuth, async (req,res)=> {
     }
 })
 
-// router.get('/pro', ensureAuth, (req,res) => {
-    
-//     res.render('product-page')
-// })
 
 //get the link to add a product to the eccomerce application using a GET request
 router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
@@ -83,6 +71,7 @@ router.post('/add-product',  upload.single('image'), ensureAuth, parseForm, csrf
     try {
          // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
+    //assert the populate db relationship
         req.body.user = req.user.id
 
         let Product = new product({
@@ -112,7 +101,7 @@ router.get('/login', (req,res) =>{
 //payment processing route
 router.get('/confirm',  ensureAuth, (req,res)=>{
      // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
+  let transporter =  new nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     secure: false, // true for 465, false for other ports
@@ -125,7 +114,7 @@ router.get('/confirm',  ensureAuth, (req,res)=>{
 
    // send mail with defined transport object
    let info =  transporter.sendMail({
-    from: '<iyayiemmanuel1@gmail.com>', // sender address
+    from: 'iyayiemmanuel1@gmail.com', // sender address
     to: " osagieiyayi09@gmail.com", // list of receivers
     subject: "NodeCommerce", // Subject line
     text: "Dear customer you have successfully completed an order,your order id for this product is " + uuid(), // plain text body
@@ -139,5 +128,7 @@ router.get('/confirm',  ensureAuth, (req,res)=>{
   });
 
 })
+
+
 
 module.exports = router

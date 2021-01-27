@@ -16,11 +16,17 @@ const port=process.env.PORT
 ///intitilaize the app
 const app = express()
 
-//middleware for csp for protection against xss attacks
+//middleware csp for protection against xss attacks
 app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self';");
     next();
   });
+
+//moddleware for protection against clickjacking attacks
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "frame-ancestors 'self';");
+    next();
+  })
   
 //morgan middleware
 app.use(morgan('dev'))
@@ -53,6 +59,9 @@ app.use(session({
     resave:false,
     saveUninitialized:false, 
     store: new MongoStore({mongooseConnection:mongoose.connection})
+},{
+//     cookie:
+//     sameSite
 }
 ))
 
@@ -66,6 +75,7 @@ app.use(passport.session())
 //routes
 app.use('/', require('./routes/eroutes'))
 app.use('/auth', require('./routes/auth'))
+app.use('/process',require('./routes/paymentroutes'))
 
 
 
