@@ -8,6 +8,7 @@
 </head>
 <body>
     <form id="paymentForm">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email-address" required />

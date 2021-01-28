@@ -1,4 +1,4 @@
-//declare he required imports
+//declare  required imports
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');

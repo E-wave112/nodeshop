@@ -11,7 +11,6 @@ const {ensureAuth} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
-const upload = require('../utils/multer');
 const User = require('../models/User')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
@@ -19,10 +18,8 @@ const async = require('async')
 
 //csrf middleeware
 const csrfProtection = csrf({cookie:true});
-router.use(csrfProtection())
 //body parser middleware
 const parseForm = bodyParser.urlencoded({extended:false})
-router.use(parseForm())
 router.use(bodyParser.json())
 router.use(cookieParser())
 
@@ -67,7 +64,7 @@ router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
 })
 
 //post the filled form
-router.post('/add-product',  upload.single('image'), ensureAuth, parseForm, csrfProtection, async (req,res)=>{
+router.post('/add-product', ensureAuth, parseForm, csrfProtection, async (req,res)=>{
     try {
          // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
