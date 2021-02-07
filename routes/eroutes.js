@@ -20,8 +20,10 @@ const async = require('async')
 const csrfProtection = csrf({cookie:true});
 //body parser middleware
 const parseForm = bodyParser.urlencoded({extended:false})
+router.use(parseForm)
 router.use(bodyParser.json())
 router.use(cookieParser())
+router.use(csrfProtection)
 
 
 router.get('/', async (req,res)=>{
@@ -81,6 +83,7 @@ router.post('/add-product', ensureAuth, parseForm, csrfProtection, async (req,re
         })
        await Product.save()
         res.redirect('/')
+        
     } catch (err) {
         console.error(err)
         res.render('error/500')

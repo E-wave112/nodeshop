@@ -73,6 +73,7 @@ app.use(passport.session())
 
 
 //routes
+
 app.use('/', require('./routes/eroutes'))
 app.use('/auth', require('./routes/auth'))
 app.use('/process',require('./routes/paymentroutes'))

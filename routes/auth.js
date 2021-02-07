@@ -1,7 +1,6 @@
 //route handlers for google auth
 const router = require('express').Router();
 const passport = require('passport')
-
 //intitialize google auth
 
 router.get('/google', passport.authenticate('google',{scope:['profile']}))

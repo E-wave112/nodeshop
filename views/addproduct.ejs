@@ -22,12 +22,16 @@
 
     <div class="form">
         <form action="/add-product" class="form-control col s12" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          
     
             <div class="row">
+               
                 <div class="input-field">
-                    <input type="text" id="name" name="name" required> 
                     <label for="title">Name</label>
+                    
+                    <br>
+                    <input type="text" id="name" name="name" required> 
+                    
                 </div>
             </div>
 
@@ -59,8 +63,11 @@
     
     
             <div class="row">
+               
                 <div class="input-field">
                     <label for="image"> Upload Product Image</label>
+                    <br>
+                    <br>
                     <input type="file" name="image">
                     
                 </div>
@@ -68,9 +75,12 @@
 
     
             <div class="row">
+               
                 <div class="input-field">
-                    <input type="number" id="price" name="price">
                     <label for="price">Price</label>
+                    <br>
+                    
+                    <input type="number" id="price" name="price">
                 </div>
             </div>
     
@@ -78,6 +88,8 @@
                 <input type="submit" value="Save" class="btn">
                 <a href="/" class="btn orange">Cancel</a>
             </div>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         </form>
     
     </div>
