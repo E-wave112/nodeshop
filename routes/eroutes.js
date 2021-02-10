@@ -1,12 +1,12 @@
 //intialize express routers
 const router = require('express').Router();
 const {v4: uuid } = require('uuidv4');
-const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
 const bodyParser= require('body-parser');
+const csrf = require('csurf');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-const cookieParser = require('cookie-parser');
 const {ensureAuth} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
@@ -17,13 +17,12 @@ const nodemailer = require("nodemailer");
 const async = require('async')
 
 //csrf middleeware
+router.use(cookieParser())
+const parseForm = bodyParser.urlencoded({extended:false})
+router.use(bodyParser.json())
 const csrfProtection = csrf({cookie:true});
 //body parser middleware
-const parseForm = bodyParser.urlencoded({extended:false})
-router.use(parseForm)
-router.use(bodyParser.json())
-router.use(cookieParser())
-router.use(csrfProtection)
+
 
 
 router.get('/', async (req,res)=>{
@@ -36,7 +35,7 @@ router.get('/', async (req,res)=>{
 })
 
 //get  product details
-router.get('/product/:id', csrfProtection, ensureAuth, async (req,res)=> {
+router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     try {
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
@@ -51,7 +50,7 @@ router.get('/product/:id', csrfProtection, ensureAuth, async (req,res)=> {
 
 
 //get the link to add a product to the eccomerce application using a GET request
-router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
+router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
 
     try {
        const categories  = await Category.find().sort({createdAt:-1})
@@ -66,7 +65,7 @@ router.get('/add-product', csrfProtection, ensureAuth, async (req,res) =>{
 })
 
 //post the filled form
-router.post('/add-product', ensureAuth, parseForm, csrfProtection, async (req,res)=>{
+router.post('/add-product',ensureAuth, parseForm, csrfProtection, async (req,res)=>{
     try {
          // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);

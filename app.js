@@ -15,6 +15,12 @@ const port=process.env.PORT
 
 ///intitilaize the app
 const app = express()
+//cookie parser middlweware
+app.use(cookieParser())
+//csurf middleware
+var parseForm = bodyParser.urlencoded({ extended: false });
+const csrfProtection = csrf({cookie:true});
+
 
 //middleware csp for protection against xss attacks
 app.use(function(req, res, next) {
@@ -73,7 +79,6 @@ app.use(passport.session())
 
 
 //routes
-
 app.use('/', require('./routes/eroutes'))
 app.use('/auth', require('./routes/auth'))
 app.use('/process',require('./routes/paymentroutes'))
