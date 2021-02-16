@@ -30,7 +30,40 @@
         </div>
       </form>
       <script src="https://js.paystack.co/v1/inline.js"></script>
-      <script src="js/paystack.js"></script>
+      <script>
+
+      const paymentForm = document.getElementById('paymentForm');
+      paymentForm.addEventListener("submit", payWithPaystack, false);
+      function payWithPaystack(e) {
+        e.preventDefault();
+        let handler = PaystackPop.setup({
+          key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
+          email: document.getElementById("email-address").value,
+          amount: document.getElementById("amount").value * 100,
+          currency: 'NGN',
+          ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+          // label: "Optional string that replaces customer email"
+          onClose: function(){
+            alert('Window closed.');
+          },
+          callback: function(response){
+            let message = 'Payment complete! Reference: ' + response.reference;
+            alert(message);
+          },
+            //make an ajax call to the server to validate the transaction
+            callback: function(response) {
+              window.location = "http://localhost:3000/verify_transaction.php?reference=" + response.reference;
+
+          },
+          onClose: function() {
+      alert('Transaction was not completed, window closed.');
+    },
+        });
+        handler.openIframe();
+      }
+
+      </script>
+      
       <footer></footer>
 
 </body>

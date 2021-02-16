@@ -48,6 +48,29 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     }
 })
 
+//filter product by category
+router.get('product/:category', ensureAuth, async (req,res)=>{
+    try {
+        const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
+        
+        const category  = req.params.category
+        const Categories = await Category.find({category:category})
+        //execute the queryfilter method with acallback function
+        Categories.exec(function(err,catdata) {
+            if (err) return handleError(err);
+            console.log(catdata)
+        })
+        // console.log(doc,category)
+        res.render('home-page',{
+            products,Categories
+        })
+        
+    } catch (err) {
+        console.error(err)
+        res.render('error/404')
+        
+    }
+})
 
 //get the link to add a product to the eccomerce application using a GET request
 router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
@@ -55,7 +78,7 @@ router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
     try {
        const categories  = await Category.find().sort({createdAt:-1})
        //console.log(categories)
-       res.render('addproduct',{csrfToken:req.csrfToken(),categories:categories})
+       res.render('addproduct',{categories:categories,csrfToken:req.csrfToken()})
 
     } catch (err) {
         console.error(err)

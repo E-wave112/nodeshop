@@ -7,16 +7,17 @@ const payment = require('../models/paymodel');
 const nodemailer = require('nodemailer');
 const async = require('async');
 
-//csrf middleware
-const csrfProtection = csrf({cookie:true})
+
 //cookie middleware
 router.use(cookieParser())
 const parseForm = bodyParser.urlencoded({extended:false})
 router.use(bodyParser.json())
+//csrf middleware
+const csrfProtection = csrf({cookie:true})
 
 //router to get payment view
 router.get('/pay', csrfProtection, ensureAuth, (req,res)=>{
-    res.render('payment/payment_process')
+    res.render('payment/payment_process',{csrfToken:req.csrfToken()})
 })
 
 //route for completed payment
