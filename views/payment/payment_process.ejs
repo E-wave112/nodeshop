@@ -1,70 +1,149 @@
+<!-- a partial for tthe add product and payment processing page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pay With Your Card</title>
-    <link rel="stylesheet" href="css/style.min.css">
+
+    <title>NodeCommerce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+     <!-- Font Awesome -->
+  <!-- materialize icons -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="..css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="..css/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="..css/style.min.css" rel="stylesheet">
 </head>
 <body>
-    <form id="paymentForm">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email-address" required />
+
+  <h3 class="pay">Enter Your Payment Details</h3>
+     
+    <form action = "/process/pay"   id="paymentForm" class="form-control col s12" method="POST" style="display: table; margin: auto;">
+     
+      <div class="row">
+        <div class="input-field">
+            <label for="email">Email Address</label>
+            <br>
+            <input type="email" id="email-address" required>  
         </div>
-        <div class="form-group">
+    </div>
+
+    <div class="row">
+      <div class="input-field">
           <label for="amount">Amount</label>
-          <input type="tel" id="amount" required />
+          <br>
+          <input type="number" id="amount" required>  
+      </div>
+  </div>
+
+      <div class="row">
+        <div class="input-field">
+            <label for="first-name">First Name</label>
+            <br>
+            <input type="text" id="first-name" required>  
         </div>
-        <div class="form-group">
-          <label for="first-name">First Name</label>
-          <input type="text" id="first-name" />
+    </div>
+
+            <div class="row">
+        <div class="input-field">
+            <label for="last-name">Last Name</label>
+            <br>
+            <input type="text" id="last-name" required>  
         </div>
-        <div class="form-group">
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" />
-        </div>
-        <div class="form-submit">
+    </div>
+
+    <div class="row">
+      <input type="submit" value="Pay"  onclick="payWithPaystack()" class="btn">
+    
+  </div>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    </form>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script>
+
+    const paymentForm = document.getElementById('paymentForm');
+    paymentForm.addEventListener("submit", payWithPaystack, false);
+    function payWithPaystack(e) {
+      e.preventDefault();
+      let handler = PaystackPop.setup({
+        key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
+        email: document.getElementById("email-address").value,
+        amount: document.getElementById("amount").value * 100,
+        currency: 'NGN',
+        ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+        // label: "Optional string that replaces customer email"
+        onClose: function(){
+          alert('Window closed.');
+        },
+        callback: function(response){
+          let message = 'Payment complete! Reference: ' + response.reference;
+          alert(message);
+        },
+          //make an ajax call to the server to validate the transaction
+          callback: function(response) {
+            window.location = "http://localhost:3000/verify_transaction.php?reference=" + response.reference;
+
+        },
+        onClose: function() {
+    alert('Transaction was not completed, window closed.');
+    window.location = "http://localhost:3000/process/pay"
+  },
+      });
+      handler.openIframe();
+    }
+
+    </script>
+        <!-- <div class="form-submit">
           <button type="submit" onclick="payWithPaystack()"> Pay </button>
-        </div>
-      </form>
-      <script src="https://js.paystack.co/v1/inline.js"></script>
-      <script>
+        </div> -->
 
-      const paymentForm = document.getElementById('paymentForm');
-      paymentForm.addEventListener("submit", payWithPaystack, false);
-      function payWithPaystack(e) {
-        e.preventDefault();
-        let handler = PaystackPop.setup({
-          key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
-          email: document.getElementById("email-address").value,
-          amount: document.getElementById("amount").value * 100,
-          currency: 'NGN',
-          ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-          // label: "Optional string that replaces customer email"
-          onClose: function(){
-            alert('Window closed.');
-          },
-          callback: function(response){
-            let message = 'Payment complete! Reference: ' + response.reference;
-            alert(message);
-          },
-            //make an ajax call to the server to validate the transaction
-            callback: function(response) {
-              window.location = "http://localhost:3000/verify_transaction.php?reference=" + response.reference;
+            <!--Footer-->
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
-          },
-          onClose: function() {
-      alert('Transaction was not completed, window closed.');
-    },
-        });
-        handler.openIframe();
-      }
+  <!-- <hr class="my-4"> -->
 
-      </script>
-      
-      <footer></footer>
+  <!-- Social icons -->
+  <div class="pb-4">
+    <a href="https://facebook.com/iyayiosagie150/" target="_blank">
+      <i class="fab fa-facebook-f mr-3"></i>
+    </a>
+
+    <a href="https://twitter.com/Ewave07" target="_blank">
+      <i class="fab fa-twitter mr-3"></i>
+    </a>
+
+    <a href="https://github.com/E-wave112" target="_blank">
+      <i class="fab fa-github mr-3"></i>
+    </a>
+  </div>
+  <!-- Social icons -->
+
+  <!--Copyright-->
+  <div class="copyright">
+    © <script>document.write(new Date().getFullYear())</script> NodeCommerce:
+    <!-- <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a> -->
+  </div>
+  <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+
+<!-- SCRIPTS -->
+<!-- MDB core JavaScript -->
+<!-- <script type="text/javascript" src="js/mdb.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Initializations -->
+<script type="text/javascript">
+  // Animations initialization
+  new WOW().init();
+</script>
 
 </body>
 </html>

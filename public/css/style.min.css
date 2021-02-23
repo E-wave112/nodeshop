@@ -60,3 +60,12 @@ select {
 label {
   text-align:center !important;
 }
+
+.pay{
+  text-align: center !important;
+
+}
+#paymentForm {
+  display: table !important;
+  margin: auto !important;
+}

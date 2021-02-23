@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const payment = require('../models/paymodel');
 const nodemailer = require('nodemailer');
 const async = require('async');
+const auth = require('../middleware/auth');
 
 
 //cookie middleware
@@ -60,7 +61,7 @@ router.post('/pay', parseForm,csrfProtection,ensureAuth, async (req,res)=>{
                 from: 'iyayiemmanuel1@gmail.com', // sender address
                 to: pay.email, // list of receivers
                 subject: "Notice of a Transaction", // Subject line,
-                html: `<b>Dear customer your payment has been recieved and verified !</b>`, // html body
+                html: `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`, // html body
                }, (err,info)=>{
                    if (err){
                        console.error(err)

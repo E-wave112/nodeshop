@@ -4,7 +4,8 @@
   "description": "an ecommmerce web application built with node.js",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [
     "Ecommerce",
@@ -14,6 +15,7 @@
   "author": "E-wave",
   "license": "MIT",
   "dependencies": {
+    "ckeditor4": "^4.16.0",
     "cloudinary": "^1.23.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
@@ -22,6 +24,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "fs": "0.0.1-security",
     "gridfs-stream": "^1.1.1",
     "hbs": "^4.1.1",
     "mongoose": "^5.11.11",

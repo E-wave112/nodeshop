@@ -1,8 +1,8 @@
 //intialize express routers
 const router = require('express').Router();
 const {v4: uuid } = require('uuidv4');
-const cookieParser = require('cookie-parser');
 const bodyParser= require('body-parser');
+const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 const fs = require('fs');
 const path = require('path');
@@ -16,10 +16,12 @@ const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
 const async = require('async')
 
-//csrf middleeware
-router.use(cookieParser())
-const parseForm = bodyParser.urlencoded({extended:false})
+//csrf middleware
+router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
+const parseForm = bodyParser.urlencoded({extended:false})
+
+router.use(cookieParser())
 const csrfProtection = csrf({cookie:true});
 //body parser middleware
 

@@ -15,18 +15,19 @@ const port=process.env.PORT
 
 ///intitilaize the app
 const app = express()
+app.use(bodyParser.urlencoded({ extended: false }))
 //cookie parser middlweware
 app.use(cookieParser())
 //csurf middleware
-var parseForm = bodyParser.urlencoded({ extended: false });
+
 const csrfProtection = csrf({cookie:true});
 
 
 //middleware csp for protection against xss attacks
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "script-src 'self';");
-    next();
-  });
+// app.use(function(req, res, next) {
+//     res.setHeader("Content-Security-Policy", "script-src 'self';");
+//     next();
+//   });
 
 //moddleware for protection against clickjacking attacks
 app.use(function(req, res, next) {
@@ -65,9 +66,12 @@ app.use(session({
     resave:false,
     saveUninitialized:false, 
     store: new MongoStore({mongooseConnection:mongoose.connection})
-},{
-//     cookie:
-//     sameSite
+    ,cookie:{
+        
+        sameSite:'none',
+        httpOnly:false,
+        secure:false
+    }
 }
 ))
 

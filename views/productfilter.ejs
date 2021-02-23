@@ -1,0 +1,32 @@
+<%- include('partials/header.ejs') -%> 
+<div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
+</div>
+<!--/.Carousel Wrapper -->
+
+<!--Main layout-->
+<main>
+  <div class="container">
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #929fba; color: white;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Categories</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+              <% categories.forEach(category => { %>
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/product/<%= category.category %>"><%= category.category %></a>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--/.Navbar-->
+    <br><br><br>
+
+    
+<%- include('partials/footer.ejs') -%> 
