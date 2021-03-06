@@ -24,10 +24,10 @@ const csrfProtection = csrf({cookie:true});
 
 
 //middleware csp for protection against xss attacks
-// app.use(function(req, res, next) {
-//     res.setHeader("Content-Security-Policy", "script-src 'self';");
-//     next();
-//   });
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self';");
+    next();
+  });
 
 //moddleware for protection against clickjacking attacks
 app.use(function(req, res, next) {
@@ -65,12 +65,11 @@ app.use(session({
     secret:process.env.SESSION_SECRET,
     resave:false,
     saveUninitialized:false, 
-    store: new MongoStore({mongooseConnection:mongoose.connection})
-    ,cookie:{
+    store: new MongoStore({mongooseConnection:mongoose.connection}),
+    cookie:{
+        sameSite:'lax',
+        httpOnly:true,
         
-        sameSite:'none',
-        httpOnly:false,
-        secure:false
     }
 }
 ))
