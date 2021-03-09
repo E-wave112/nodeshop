@@ -1,11 +1,8 @@
 //declare  required imports
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const dotenv = require('dotenv').config({path:__dirname+'/.env'});
-const csrf = require('csurf');
-const bodyParser = require('body-parser');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session')
@@ -15,12 +12,7 @@ const port=process.env.PORT
 
 ///intitilaize the app
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false }))
-//cookie parser middlweware
-app.use(cookieParser())
-//csurf middleware
 
-const csrfProtection = csrf({cookie:true});
 
 
 //middleware csp for protection against xss attacks

@@ -16,24 +16,40 @@ const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
 const async = require('async')
 
-//csrf middleware
-router.use(bodyParser.urlencoded({extended:false}))
-router.use(bodyParser.json())
-const parseForm = bodyParser.urlencoded({extended:false})
 
+// error handler
+router.use(function (err, req, res, next) {
+    if (err.code !== 'EBADCSRFTOKEN'){
+    // handle CSRF token errors here
+    res.status(403)
+    res.render('error/403')
+    return next(err)
+
+    } 
+  
+    
+  })
+//cookie parser middleware
 router.use(cookieParser())
-const csrfProtection = csrf({cookie:true});
+
 //body parser middleware
+const parseForm = bodyParser.urlencoded({extended:true})
+
+//csrf middleware
+const csrfProtection = csrf({cookie:true});
+
 
 
 
 router.get('/', async (req,res)=>{
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
-    const user = await User.findById(req.params.id)
+    const id = mongoose.Types.ObjectId(req.params.id)
+    const user = await User.findById(id).lean()
     const categories = await Category.find({}).sort({createdAt: -1}).lean()
     res.render('home-page', {
         products,categories,user
     })
+    console.log(user)
 })
 
 //get  product details
@@ -57,7 +73,7 @@ router.get('product/:category', ensureAuth, async (req,res)=>{
         
         const category  = req.params.category
         const Categories = await Category.find({category:category})
-        //execute the queryfilter method with acallback function
+        //execute the queryfilter method with a callback function
         Categories.exec(function(err,catdata) {
             if (err) return handleError(err);
             console.log(catdata)
@@ -90,9 +106,10 @@ router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
 })
 
 //post the filled form
-router.post('/add-product',ensureAuth, parseForm, csrfProtection, async (req,res)=>{
+router.post('/add-product',ensureAuth, parseForm, csrfProtection,async (req,res)=>{
     try {
          // Upload image to cloudinary
+         console.log(req.file)
     const result = await cloudinary.uploader.upload(req.file.path);
     //assert the populate db relationship
         req.body.user = req.user.id
@@ -118,39 +135,6 @@ router.post('/add-product',ensureAuth, parseForm, csrfProtection, async (req,res
 
 router.get('/login', (req,res) =>{
     res.render('login')
-})
-
-
-
-//payment processing route
-router.get('/confirm',  ensureAuth, (req,res)=>{
-     // create reusable transporter object using the default SMTP transport
-  let transporter =  new nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-        user:process.env.user,
-        pass: process.env.pass
-    },
-
-  });
-
-   // send mail with defined transport object
-   let info =  transporter.sendMail({
-    from: 'iyayiemmanuel1@gmail.com', // sender address
-    to: " osagieiyayi09@gmail.com", // list of receivers
-    subject: "NodeCommerce", // Subject line
-    text: "Dear customer you have successfully completed an order,your order id for this product is " + uuid(), // plain text body
-    html: `<b>Dear customer you have successfully completed an order,your order id for this product is ${uuid()}</b>`, // html body
-  },( err,info)=>{
-      if (err){
-          console.error(err)
-      }else {
-          console.log(info)
-      }
-  });
-
 })
 
 

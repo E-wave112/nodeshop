@@ -27,7 +27,7 @@ router.get('/complete', (req,res)=>{
 })
 
 //post request for payment
-router.post('/pay', parseForm,csrfProtection,ensureAuth, async (req,res)=>{
+router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
     //assert the populate db relationship
     req.body.user = req.user.id
     //create an array to store payment data in the db
