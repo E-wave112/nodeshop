@@ -15,8 +15,11 @@ or
 ```
 $ npm install
 ```
-
-### Running the Dev container
+### Build the initial docker image
+```
+docker-compose up --build
+```
+### Running the Dev Docker container
 
 To run the application, use the following command:
 
