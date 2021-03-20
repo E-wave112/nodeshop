@@ -2,6 +2,7 @@ version: "3.7"
 
 services: 
   web:
+      
     image: nodedocker:dev
     build:
       context: .
@@ -9,11 +10,9 @@ services:
     container_name: nodecommerce
     restart: always
     ports: 
-      "3000:3000"
+      - "3000:3000"
     volumes: 
       - .:/app
-    depends_on:
-      - nodecommerce
     environment:
       - dbURI=process.env.dbURI
       - GOOGLE_CLIENT_ID=process.env.GOOGLE_CLIENT_ID
