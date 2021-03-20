@@ -7,6 +7,19 @@ const payment = require('../models/paymodel');
 const nodemailer = require('nodemailer');
 const async = require('async');
 const auth = require('../middleware/auth');
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+
+//create a global transport object
+let transport = {
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: process.env.MAIL_TRAP_USER,
+      pass:process.env.MAIL_TRAP_PASS
+      }
+    }
 
 
 //cookie middleware
@@ -47,15 +60,10 @@ router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
             })
         },
         function(pay,done){
-            let transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 587,
-                secure: false, // true for 465, false for other ports
-                auth: {
-                    user:process.env.user,
-                    pass: process.env.pass
-                },
-              });
+            if (!process.env.NODE_ENV === 'production'){
+    
+   
+            let transporter = nodemailer.createTransport(transport)
                // send mail with defined transport object
                let info =  transporter.sendMail({
                 from: 'iyayiemmanuel1@gmail.com', // sender address
@@ -72,6 +80,24 @@ router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
                    done(err,'done')
                })
 
+            }else {
+                const msg = {
+                    to: pay.email, // Change to your recipient
+                    from: 'iyayiemmanuel1@gmail.com', // Change to your verified sender
+                    subject: 'Notice of a Transaction',
+                    text: `Dear ${pay.firstname} your payment has been recieved and verified !`,
+                    html:  `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`,
+                  }
+                  
+                  sgMail
+                    .send(msg)
+                    .then(() => {
+                      console.log('Email sent')
+                    })
+                    .catch((error) => {
+                      console.error(error)
+                    })
+            }
         }
 
     ], function(err){

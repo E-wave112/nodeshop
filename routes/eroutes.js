@@ -14,7 +14,7 @@ const cloudinary = require("../utils/cloudinary");
 const User = require('../models/User')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
-const async = require('async')
+const async = require('async');
 
 
 // error handler
@@ -72,6 +72,7 @@ router.get('product/:category', ensureAuth, async (req,res)=>{
         const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
         
         const category  = req.params.category
+        const x = x.collection()
         const Categories = await Category.find({category:category})
         //execute the queryfilter method with a callback function
         Categories.exec(function(err,catdata) {
@@ -88,6 +89,8 @@ router.get('product/:category', ensureAuth, async (req,res)=>{
         res.render('error/404')
         
     }
+
+
 })
 
 //get the link to add a product to the eccomerce application using a GET request

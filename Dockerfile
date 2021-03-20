@@ -9,7 +9,21 @@ RUN npm install
 
 EXPOSE 3000
 
-EXPOSE $PORT
+
 COPY  . .
 
 CMD [ "npm","start" ]
+
+#DEV DOCKERFILE
+from prod as dev
+
+ENV NODE_ENV=development
+
+RUN npm install -g nodemon
+
+RUN npm install --only=dev
+
+EXPOSE 3000
+
+
+CMD ["npm","run","dev"]
