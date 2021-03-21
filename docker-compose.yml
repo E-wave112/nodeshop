@@ -1,9 +1,8 @@
 version: "3.7"
 
-services: 
-  web:
-      
-    image: nodedocker:dev
+services:
+  web: 
+    image: ewave112/fastcontainer:dev
     build:
       context: .
       target: dev
@@ -13,17 +12,21 @@ services:
       - "3000:3000"
     volumes: 
       - .:/app
+    env_file: 
+      - .env
     environment:
-      - dbURI=process.env.dbURI
-      - GOOGLE_CLIENT_ID=process.env.GOOGLE_CLIENT_ID
-      - GOOGLE_CLIENT_SECRET=process.env.GOOGLE_CLIENT_SECRET
-      - SESSION_SECRET=process.env.SESSION_SECRET
-      - CLOUD_NAME=process.env.CLOUD_NAME
-      - API_KEY=process.env.API_KEY
-      - API_SECRET=process.env.API_SECRET
-      - PAYSTACK_SECRET=process.env.PAYSTACK_SECRET
-      - PAYSTACK_PUBLIC=process.env.PAYSTACK_PUBLIC
-      - SENGRID_API_KEY=process.env.SENGRID_API_KEY
+      - dbURI=${dbURI}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - CLOUD_NAME=${CLOUD_NAME}
+      - API_KEY=${API_KEY}
+      - API_SECRET=${API_SECRET}
+      - PAYSTACK_SECRET=${PAYSTACK_SECRET}
+      - PAYSTACK_PUBLIC=${PAYSTACK_PUBLIC}
+      - SENGRID_API_KEY=${SENDGRID_API_KEY}
+      - MAIL_TRAP_USER=${MAIL_TRAP_USER}
+      - MAIL_TRAP_PASS=${MAIL_TRAP_PASS}
     networks: 
       - nodecommerce-network
 
