@@ -129,3 +129,5 @@ todo.md
 
 file.ejs
 re.js
+*.tar
+*.tar.gz
