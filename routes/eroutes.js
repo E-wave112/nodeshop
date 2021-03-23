@@ -7,7 +7,7 @@ const csrf = require('csurf');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-const {ensureAuth} = require('../middleware/auth');
+const {ensureAuth,ensureGuest} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
@@ -15,6 +15,7 @@ const User = require('../models/User')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
 const async = require('async');
+const upload = require("../utils/multer");
 
 
 // error handler
@@ -38,19 +39,33 @@ const parseForm = bodyParser.urlencoded({extended:true})
 //csrf middleware
 const csrfProtection = csrf({cookie:true});
 
+//default home page for an authenticated user 
 
+// router.get('/:id', ensureAuth, async (req,res)=>{
+//     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
+//     const id = mongoose.Types.ObjectId(req.params.id)
+//     const user = await User.find({}).lean()
+//     const categories = await Category.find({}).sort({createdAt: -1}).lean()
+//     res.redirect('/')
+//     res.render('home-page', {
+//         products,categories,user,id
+//     })
+//     console.log(user)
+// })
 
 
 router.get('/', async (req,res)=>{
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
     const id = mongoose.Types.ObjectId(req.params.id)
-    const user = await User.findById(id).lean()
+    const user = await User.find({}).lean()
     const categories = await Category.find({}).sort({createdAt: -1}).lean()
     res.render('home-page', {
-        products,categories,user
+        products,categories,user,id
     })
     console.log(user)
 })
+
+
 
 //get  product details
 router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
@@ -109,9 +124,10 @@ router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
 })
 
 //post the filled form
-router.post('/add-product',ensureAuth, parseForm, csrfProtection,async (req,res)=>{
+router.post('/add-product', upload.single("image"),ensureAuth, parseForm, csrfProtection,async (req,res)=>{
     try {
          // Upload image to cloudinary
+         console.log(req)
          console.log(req.file)
     const result = await cloudinary.uploader.upload(req.file.path);
     //assert the populate db relationship

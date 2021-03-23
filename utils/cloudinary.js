@@ -7,19 +7,6 @@ cloudinary.config({
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
   }); 
-  
 
-
-
-// //apply transformations to the image to be uploaded
-
-// const storage = new cloudStorage({
-//   cloudinary: cloudinary,
-//   folder: "nodecommerce",
-//   allowedFormats: ["jpg", "png"],
-//   transformation: [{ width: 500, height: 500, crop: "limit" }]
-//   });
-
-// const parser = multer({ storage: storage });
 
 module.exports = cloudinary
