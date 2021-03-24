@@ -1,6 +1,6 @@
 **Node Shop**
 
-A ecommerce application  (in progress) developed using NodeJS
+A ecommerce application  (in progress) developed using NodeJS and [Docker](https://docs.docker.com/)
 
 To get started with this project clone the repo by running the command git clone https://github.com/E-wave112/nodeshop.git or downloading the zip file
 
