@@ -1,20 +1,15 @@
 //intialize express routers
 const router = require('express').Router();
-const {v4: uuid } = require('uuidv4');
 const bodyParser= require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
-const {ensureAuth,ensureGuest} = require('../middleware/auth');
+const {ensureAuth} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
 const User = require('../models/User')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
-const async = require('async');
 const upload = require("../utils/multer");
 
 
@@ -62,7 +57,7 @@ router.get('/', async (req,res)=>{
     res.render('home-page', {
         products,categories,user,id
     })
-    console.log(user)
+
 })
 
 

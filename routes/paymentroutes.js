@@ -4,10 +4,12 @@ const csrf = require('csurf');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const payment = require('../models/paymodel');
+const product = require('../models/product');
 const nodemailer = require('nodemailer');
 const async = require('async');
 const auth = require('../middleware/auth');
-const sgMail = require('@sendgrid/mail')
+const sgMail = require('@sendgrid/mail');
+const mongoose = require('mongoose');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 
@@ -30,8 +32,15 @@ router.use(bodyParser.json())
 const csrfProtection = csrf({cookie:true})
 
 //router to get payment view
-router.get('/pay', csrfProtection, ensureAuth, (req,res)=>{
-    res.render('payment/payment_process',{csrfToken:req.csrfToken()})
+router.get('/product/pay/:id', csrfProtection, ensureAuth, (req,res)=>{
+    const id = mongoose.Types.ObjectId(req.params.id)
+    let Product = product.findById(id).populate('category').lean();
+
+    res.render('payment/payment_process',{
+        Product,
+        csrfToken:req.csrfToken()
+    })
+    console.log(Product)
 })
 
 //route for completed payment

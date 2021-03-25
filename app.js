@@ -25,15 +25,21 @@ if (clusters.isMaster){
         const dotenv = require('dotenv').config({path:__dirname+'/.env'});
         const path = require('path');
         const passport = require('passport');
-        const session = require('express-session')
+        const session = require('express-session');
         const MongoStore = require('connect-mongo')(session)
         require('./config/passport')(passport);
+        const helmet = require('helmet');
+        const compression = require('compression');
         const port=process.env.PORT
 
         ///intitilaize the app
-        const app = express()
+        const app = express();
 
+        //middleware for protection against standard http headers
+        app.use(helmet());
 
+        //middeware for compressing static files
+        app.use(compression());
 
         //middleware csp for protection against xss attacks
         app.use(function(req, res, next) {
