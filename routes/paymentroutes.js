@@ -39,14 +39,15 @@ router.get('/product/pay/:id', csrfProtection, ensureAuth, (req,res)=>{
     res.render('payment/payment_process',{
         Product,
         csrfToken:req.csrfToken()
-    })
-    console.log(Product)
-})
+    });
+    console.log(Product);
+    
+});
 
 //route for completed payment
 router.get('/complete', (req,res)=>{
     res.render('payment/payment_complete')
-})
+});
 
 //post request for payment
 router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
@@ -66,7 +67,7 @@ router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
             arr.push(pay)
             pay.save((err)=>{
                 done(err,pay)
-            })
+            });
         },
         function(pay,done){
             if (!process.env.NODE_ENV === 'production'){
@@ -87,7 +88,7 @@ router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
                        console.log(info)
                    }
                    done(err,'done')
-               })
+               });
 
             }else {
                 const msg = {
@@ -133,4 +134,4 @@ router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
   
  })
 
-module.exports = router
+module.exports = router;

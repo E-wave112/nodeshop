@@ -23,7 +23,16 @@
   <link href="..css/style.min.css" rel="stylesheet">
 </head>
 <body>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+    <div class="container">
 
+      <!-- Brand -->
+      <a class="navbar-brand waves-effect" href="/" >
+        <strong class="blue-text">HOME</strong>
+      </a>
+      </div>
+    </nav>
+    <br><br>
   <h3 class="pay">Enter Your Payment Details</h3>
      
     <form action = "/process/pay"   id="paymentForm" class="form-control col s12" method="POST" style="display: table; margin: auto;">
@@ -62,6 +71,7 @@
 
     <div class="row">
       <input type="submit" value="Pay"  onclick="payWithPaystack()" class="btn">
+      <a href="/" class="btn orange">Cancel</a>
     
   </div>
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -84,16 +94,16 @@
           alert('Window closed.');
         },
         callback: function(response){
-          let message = 'Payment complete! Reference: ' + response.reference;
+          let message = 'Payment complete! Reference: ' + response.ref;
           alert(message);
         },
           //make an ajax call to the server to validate the transaction
           callback: function(response) {
-            window.location = "http://localhost:4000/verify_transaction.php?reference=" + response.reference;
+            window.location = "http://localhost:4000/payment_complete?reference=" + response.reference;
 
         },
         onClose: function() {
-    alert('Transaction was not completed, window closed.');
+    alert(' AN error occured and the tranaction was not completed.');
     window.location = "http://localhost:4000/process/pay"
   },
       });
@@ -112,15 +122,15 @@
 
   <!-- Social icons -->
   <div class="pb-4">
-    <a href="https://facebook.com/iyayiosagie150/" target="_blank">
+    <a href="https://facebook.com/iyayiosagie150/" target="_blank" rel="noopener noreferrer" >
       <i class="fab fa-facebook-f mr-3"></i>
     </a>
 
-    <a href="https://twitter.com/Ewave07" target="_blank">
+    <a href="https://twitter.com/Ewave07" target="_blank" rel="noopener noreferrer" >
       <i class="fab fa-twitter mr-3"></i>
     </a>
 
-    <a href="https://github.com/E-wave112" target="_blank">
+    <a href="https://github.com/E-wave112" target="_blank" rel="noopener noreferrer" >
       <i class="fab fa-github mr-3"></i>
     </a>
   </div>

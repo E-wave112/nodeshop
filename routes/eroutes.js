@@ -122,8 +122,6 @@ router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
 router.post('/add-product', upload.single("image"),ensureAuth, parseForm, csrfProtection,async (req,res)=>{
     try {
          // Upload image to cloudinary
-         console.log(req)
-         console.log(req.file)
     const result = await cloudinary.uploader.upload(req.file.path);
     //assert the populate db relationship
         req.body.user = req.user.id

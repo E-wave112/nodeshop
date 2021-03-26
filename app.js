@@ -91,8 +91,16 @@ if (clusters.isMaster){
             }
         }
         ))
+        // Global variables
 
-        //write script logic that will enable the cart to be in session
+        // app.use(function(req, res, next) {
+
+        //     res.locals.products._id = req.params.id
+        //     res.locals.Product._id = req.params.id
+        //     next();
+        // });
+
+  
 
         //intialize passport and passport sessions
         app.use(passport.initialize())
