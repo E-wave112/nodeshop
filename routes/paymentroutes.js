@@ -10,7 +10,7 @@ const async = require('async');
 const auth = require('../middleware/auth');
 const sgMail = require('@sendgrid/mail');
 const mongoose = require('mongoose');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 //create a global transport object
@@ -46,6 +46,10 @@ router.get('/product/pay/:id', csrfProtection, ensureAuth, (req,res)=>{
 
 //route for completed payment
 router.get('/complete', (req,res)=>{
+
+    if (! req.query.reference){
+        res.redirect('/')
+    }
     res.render('payment/payment_complete')
 });
 

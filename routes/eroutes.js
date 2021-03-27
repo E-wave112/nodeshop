@@ -11,6 +11,7 @@ const User = require('../models/User')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
 const upload = require("../utils/multer");
+const { route } = require('./paymentroutes');
 
 
 // error handler
@@ -83,7 +84,7 @@ router.get('product/:category', ensureAuth, async (req,res)=>{
         
         const category  = req.params.category
         const x = x.collection()
-        const Categories = await Category.find({category:category})
+        const Categories = await Category.find({category:category});
         //execute the queryfilter method with a callback function
         Categories.exec(function(err,catdata) {
             if (err) return handleError(err);
@@ -95,25 +96,29 @@ router.get('product/:category', ensureAuth, async (req,res)=>{
         })
         
     } catch (err) {
-        console.error(err)
-        res.render('error/404')
+        console.error(err);
+        res.render('error/404');
         
     }
 
 
 })
 
+router.get('/403', (req,res)=>{
+    res.render('error/403')
+})
+
 //get the link to add a product to the eccomerce application using a GET request
 router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
 
     try {
-       const categories  = await Category.find().sort({createdAt:-1})
+       const categories  = await Category.find().sort({createdAt:-1});
        //console.log(categories)
        res.render('addproduct',{categories:categories,csrfToken:req.csrfToken()})
 
     } catch (err) {
-        console.error(err)
-        res.render('error/500')
+        console.error(err);
+        res.render('error/500');
         
     }
 })

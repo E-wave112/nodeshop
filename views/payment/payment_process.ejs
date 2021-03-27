@@ -94,17 +94,17 @@
           alert('Window closed.');
         },
         callback: function(response){
-          let message = 'Payment complete! Reference: ' + response.ref;
+          let message = 'Payment complete! here is your Reference number: ' + response.ref;
           alert(message);
         },
           //make an ajax call to the server to validate the transaction
           callback: function(response) {
-            window.location = "http://localhost:4000/payment_complete?reference=" + response.reference;
+            window.location = "http://localhost:4000/payment_complete?reference=" + response.ref;
 
         },
         onClose: function() {
     alert(' AN error occured and the tranaction was not completed.');
-    window.location = "http://localhost:4000/process/pay"
+    window.location = "http://localhost:4000/process/pay/:id"
   },
       });
       handler.openIframe();
