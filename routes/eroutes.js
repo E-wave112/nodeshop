@@ -18,9 +18,6 @@ const coinbaseClient = require('coinbase').Client;
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-
-let Price = '';
-
 // const getExRate =(currency) =>{
 
 //     https.get(`https://api.coinbase.com/v2/prices/spot?currency=${currency}`, (resp)=>{
@@ -60,10 +57,6 @@ let transport = {
       }
     }
 
-  
-
-
-
 
 // error handler
 router.use(function (err, req, res, next) {
@@ -85,20 +78,6 @@ const parseForm = bodyParser.urlencoded({extended:true})
 
 //csrf middleware
 const csrfProtection = csrf({cookie:true});
-
-//default home page for an authenticated user 
-
-// router.get('/:id', ensureAuth, async (req,res)=>{
-//     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
-//     const id = mongoose.Types.ObjectId(req.params.id)
-//     const user = await User.find({}).lean()
-//     const categories = await Category.find({}).sort({createdAt: -1}).lean()
-//     res.redirect('/')
-//     res.render('home-page', {
-//         products,categories,user,id
-//     })
-//     console.log(user)
-// })
 
 
 router.get('/', async (req,res)=>{
@@ -122,15 +101,16 @@ router.get('/', async (req,res)=>{
 //get  product details
 router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     try {
-        currencyCode = 'USD'
-        currencyCode_n = 'NGN'
+        var currencyCode = 'USD'
+       var currencyCode_n = 'NGN'
 
-        let currUs;
-        let currNg;
+        var currUs;
+        var currNg;
         
         client.getSpotPrice({'currency': currencyCode}, function(err, price) {
-        
+
             currUs = price.data.amount;
+            // currU += currUs
             console.log(price)
             console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
         });
@@ -138,13 +118,14 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
         client.getSpotPrice({'currency': currencyCode_n}, function(err, price) {
             
             currNg = price.data.amount;
+            
             console.log(price)
             console.log('Current bitcoin price in ' + currencyCode_n + ': ' +  price.data.amount);
         });
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = 1 * (currUs/currNg)
+        const ngnAmount = 1 * (currUs/1)
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })

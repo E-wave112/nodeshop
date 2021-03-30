@@ -33,10 +33,10 @@
   
             <p><%= Product.description %>.</p>
    
-            <form class=" d-flex justify-content-space-between form-control col s12" action="/product/<%= Product._id  %> "  method="POST"  id="paymentForm">
+            <form class="col s12" action="/product/<%= Product._id  %> "  method="POST"  id="paymentForm">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               
-              <input type="text" id="amount" name="" value="<%= ngnAmount %>" readonly required  class="form-control" style="width: 100px">
+              <input type="number" id="amount" name="" value="<%= ngnAmount %>" readonly required aria-label="Search"  class="form-control" style="width: 100px">
               <br>
               
               <!-- Default input -->
