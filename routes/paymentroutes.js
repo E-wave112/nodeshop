@@ -54,7 +54,7 @@ router.get('/complete', (req,res)=>{
 });
 
 //post request for payment
-router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
+router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
     //assert the populate db relationship
     req.body.user = req.user.id
     //create an array to store payment data in the db
@@ -122,7 +122,7 @@ router.post('/pay',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
         }
         else{
             console.log('data', data)
-            res.redirect('/complete');
+            res.redirect('/payment/complete');
         }
     });
     // try {

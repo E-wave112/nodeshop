@@ -32,13 +32,20 @@
             <p class="lead font-weight-bold">Description</p>
   
             <p><%= Product.description %>.</p>
-  
-            <form class="d-flex justify-content-left" action="/confirm">
+   
+            <form class=" d-flex justify-content-space-between form-control col s12" action="/product/<%= Product._id  %> "  method="POST"  id="paymentForm">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              
+              <input type="text" id="amount" name="" value="<%= ngnAmount %>" readonly required  class="form-control" style="width: 100px">
+              <br>
+              
               <!-- Default input -->
-              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <input type="email" id="email-address"  placeholder="jondoe@yahoo.com" aria-label="Search" class="form-control" style="width: 100px" required>
+              
+              <input type="number" id="quantity" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              
               <!-- in need of url editing -->
-              <button class="btn btn-primary btn-md my-0 p" type="submit"><a href = "/process/product/pay/<%= Product._id %>" style="color: white;">Pay Now</a>
+              <button class="btn btn-primary btn-md my-0 p"  onclick="payWithPaystack()" type="submit">Pay Now
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
             </form>
@@ -54,7 +61,41 @@
   <!--Main layout-->
     <!-- SCRIPTS -->
 <!-- MDB core JavaScript -->
-<!-- <script type="text/javascript" src="js/mdb.min.js"></script> -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+
+  const paymentForm = document.getElementById('paymentForm');
+  paymentForm.addEventListener("submit", payWithPaystack, false);
+  function payWithPaystack(e) {
+    e.preventDefault();
+    let handler = PaystackPop.setup({
+      key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
+      email: document.getElementById("email-address").value,
+      amount: document.getElementById("amount").value * 100 * document.getElementById("quantity").value,
+      currency: 'NGN',
+      ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      // label: "Optional string that replaces customer email"
+      onClose: function(){
+        alert('Window closed, payment successful !');
+      },
+      callback: function(response){
+        let message = 'Payment complete! here is your Reference number: ' + response.ref;
+        alert(message);
+      },
+        //make an ajax call to the server to validate the transaction
+        callback: function(response) {
+          window.location = "http://localhost:4000/payment_complete?reference=" + response.ref;
+
+      },
+      onClose: function() {
+  alert(' An error occured and the tranaction was not completed.');
+  window.location = "http://localhost:4000/"
+},
+    });
+    handler.openIframe();
+  }
+
+  </script>
 <script >
   CKEDITOR.replace('ckeditor');
 </script> 

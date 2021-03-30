@@ -9,7 +9,7 @@ services:
     container_name: nodecommerce
     restart: always
     ports: 
-      - "3000:3000"
+      - "4000:4000"
     volumes: 
       - .:/app
     env_file: 
