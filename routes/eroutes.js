@@ -10,10 +10,13 @@ const cloudinary = require("../utils/cloudinary");
 const User = require('../models/User')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
+const async = require('async');
 const upload = require("../utils/multer");
-const https = require('https');
+const payment = require('../models/paymodel');
 //require the coinbase clinet
 const coinbaseClient = require('coinbase').Client;
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 let Price = '';
@@ -44,6 +47,19 @@ let client = new coinbaseClient({
     'version':'YYYY-MM-DD',
     strictSSL:false
   });
+
+
+
+//create a global transport object
+let transport = {
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: process.env.MAIL_TRAP_USER,
+      pass:process.env.MAIL_TRAP_PASS
+      }
+    }
+
   
 
 
@@ -204,12 +220,12 @@ router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=
     ], function(err){
         if (err){
             console.error(err)
-            res.redirect('/pay');
+            res.redirect('/');
             return next(err);
         }
         else{
             console.log('data', data)
-            res.redirect('/payment/complete');
+            res.redirect('/process/complete');
         }
     });
     // try {
