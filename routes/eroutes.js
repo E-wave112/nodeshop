@@ -16,6 +16,7 @@ const payment = require('../models/paymodel');
 //require the coinbase clinet
 const coinbaseClient = require('coinbase').Client;
 const sgMail = require('@sendgrid/mail');
+const { promiseImpl } = require('ejs');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // const getExRate =(currency) =>{
@@ -101,31 +102,32 @@ router.get('/', async (req,res)=>{
 //get  product details
 router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     try {
-        var currencyCode = 'USD'
+       var currencyCode = 'USD'
        var currencyCode_n = 'NGN'
 
-        var currUs;
-        var currNg;
+       
         
-        client.getSpotPrice({'currency': currencyCode}, function(err, price) {
+     client.getSpotPrice({'currency': currencyCode}, function (err,price) {
 
             currUs = price.data.amount;
-            // currU += currUs
-            console.log(price)
-            console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
+            
+            //console.log(price)
+            return 'Current bitcoin price in ' + currencyCode + ': ' +  currUs;
         });
 
-        client.getSpotPrice({'currency': currencyCode_n}, function(err, price) {
+   client.getSpotPrice({'currency': currencyCode_n}, function (err,price) {
             
             currNg = price.data.amount;
-            
-            console.log(price)
-            console.log('Current bitcoin price in ' + currencyCode_n + ': ' +  price.data.amount);
+            //console.log(price)
+            return 'Current bitcoin price in ' + currencyCode_n + ': ' +  currNg
         });
+
+        // console.log(coinBase(price))
+        // console.log(coinBas(price))
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = 1 * (currUs/1)
+        const ngnAmount = 1
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
