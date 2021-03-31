@@ -72,7 +72,7 @@ router.get('/', async (req,res)=>{
     res.render('home-page', {
         products,categories,user,id
     })
-    console.log(categories)
+    
 })
 
 router.get('/category', async (req,res) => {
@@ -83,17 +83,14 @@ router.get('/category', async (req,res) => {
     categories.forEach(cat => {
         cates.push(cat.category)
     });
-    console.log('hhey')
-    console.log(cates)
     for (let cat of cates){
         if (! req.query.category === cat){
             res.redirect('/');
-        } else {
-            var productFilt = products.filter(prod=>prod.category === cat)
-        }
+        } 
+            var productFilt = products.filter(prod=>prod.category === cat);
         
     }
-    console.log(productFilt)
+    console.log(productFilt, products)
 
     res.render('productfilter',{
         products,cates,productFilt
