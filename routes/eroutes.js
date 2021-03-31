@@ -16,28 +16,7 @@ const payment = require('../models/paymodel');
 //require the coinbase clinet
 const coinbaseClient = require('coinbase').Client;
 const sgMail = require('@sendgrid/mail');
-const { promiseImpl } = require('ejs');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-// const getExRate =(currency) =>{
-
-//     https.get(`https://api.coinbase.com/v2/prices/spot?currency=${currency}`, (resp)=>{
-
-
-//     // A chunk of data has been received.
-//     resp.on('data', (chunk) => {
-//     Price += chunk;
-//     });
-
-//     // The whole response has been received. Print out the result.
-//     resp.on('end', () => {
-//     console.log(JSON.parse(Price))
-//      });
-    
-//   })
-//   return Price.data.amount
-
-// } 
 
 let client = new coinbaseClient({
     'apiKey': process.env.COINBASE_API_KEY,
@@ -82,8 +61,14 @@ const csrfProtection = csrf({cookie:true});
 
 
 router.get('/', async (req,res)=>{
+
+    let cates = [];
     
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
+    products.forEach(product => {
+        cates.push(product.category )
+        
+    });
     const id = mongoose.Types.ObjectId(req.params.id)
     const user = await User.find({}).lean()
     limit = req.query.limit 
@@ -97,37 +82,63 @@ router.get('/', async (req,res)=>{
 
 })
 
+router.get('/categories', async (req,res) => {
+
+    let cates = [];
+    const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
+    products.forEach(product => {
+        cates.push(product.category)
+    });
+    for (let cat of cates){
+        if (! req.query.category === cat){
+            res.redirect('/');
+        }else {
+            let productFilt = products.filter(prod=>prod.category === cat)
+        }
+    }
+    res.render('home-page',{
+        products,cat,productFilt
+    })
+
+
+})
 
 
 //get  product details
 router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
+
+
+        var currUs;
+        var currNg;
+        let coinPrice = async () => {
+            currencyCode = 'USD'
+            currencyCode_n = 'NGN'
+     
+            
+             
+         await client.getSpotPrice({'currency': currencyCode}, function (err,price) {
+                 currUs = price.data.amount;
+                 console.log('Current bitcoin price in ' + currencyCode + ': ' +  currUs);
+             });
+     
+        await client.getSpotPrice({'currency': currencyCode_n}, function (err,price) {
+                 
+                 currNg = price.data.amount;
+                 console.log('Current bitcoin price in ' + currencyCode_n + ': ' +  currNg);
+             });
+    
+        }
+          coinPrice();
+          
+
+
     try {
-       var currencyCode = 'USD'
-       var currencyCode_n = 'NGN'
-
-       
-        
-     client.getSpotPrice({'currency': currencyCode}, function (err,price) {
-
-            currUs = price.data.amount;
-            
-            //console.log(price)
-            return 'Current bitcoin price in ' + currencyCode + ': ' +  currUs;
-        });
-
-   client.getSpotPrice({'currency': currencyCode_n}, function (err,price) {
-            
-            currNg = price.data.amount;
-            //console.log(price)
-            return 'Current bitcoin price in ' + currencyCode_n + ': ' +  currNg
-        });
-
         // console.log(coinBase(price))
         // console.log(coinBas(price))
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = 1
+        const ngnAmount = currUs / currNg
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
