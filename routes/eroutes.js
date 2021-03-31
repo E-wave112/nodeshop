@@ -61,14 +61,8 @@ const csrfProtection = csrf({cookie:true});
 
 
 router.get('/', async (req,res)=>{
-
-    let cates = [];
     
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
-    products.forEach(product => {
-        cates.push(product.category )
-        
-    });
     const id = mongoose.Types.ObjectId(req.params.id)
     const user = await User.find({}).lean()
     limit = req.query.limit 
@@ -78,28 +72,32 @@ router.get('/', async (req,res)=>{
     res.render('home-page', {
         products,categories,user,id
     })
-    console.log(products.length)
-
+    console.log(categories)
 })
 
-router.get('/categories', async (req,res) => {
+router.get('/category', async (req,res) => {
 
     let cates = [];
     const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
-    products.forEach(product => {
-        cates.push(product.category)
+    const categories = await Category.find({}).sort({createdAt: -1}).lean()
+    categories.forEach(cat => {
+        cates.push(cat.category)
     });
+    console.log('hhey')
+    console.log(cates)
     for (let cat of cates){
         if (! req.query.category === cat){
             res.redirect('/');
-        }else {
-            let productFilt = products.filter(prod=>prod.category === cat)
+        } else {
+            var productFilt = products.filter(prod=>prod.category === cat)
         }
+        
     }
-    res.render('home-page',{
-        products,cat,productFilt
-    })
+    console.log(productFilt)
 
+    res.render('productfilter',{
+        products,cates,productFilt
+    })
 
 })
 
@@ -110,18 +108,18 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
 
         var currUs;
         var currNg;
-        let coinPrice = async () => {
+        let coinPrice =  () => {
             currencyCode = 'USD'
             currencyCode_n = 'NGN'
      
             
              
-         await client.getSpotPrice({'currency': currencyCode}, function (err,price) {
+          client.getSpotPrice({'currency': currencyCode}, function (err,price) {
                  currUs = price.data.amount;
                  console.log('Current bitcoin price in ' + currencyCode + ': ' +  currUs);
              });
      
-        await client.getSpotPrice({'currency': currencyCode_n}, function (err,price) {
+         client.getSpotPrice({'currency': currencyCode_n}, function (err,price) {
                  
                  currNg = price.data.amount;
                  console.log('Current bitcoin price in ' + currencyCode_n + ': ' +  currNg);
