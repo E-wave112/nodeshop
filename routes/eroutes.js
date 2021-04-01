@@ -75,6 +75,7 @@ router.get('/', async (req,res)=>{
     
 })
 
+//filter products by category
 router.get('/category', async (req,res) => {
 
     let cates = [];
@@ -128,8 +129,6 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
 
 
     try {
-        // console.log(coinBase(price))
-        // console.log(coinBas(price))
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
@@ -230,38 +229,6 @@ router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=
   
  })
 
- 
-
-//filter product by category
-router.get('product/:category', ensureAuth, async (req,res)=>{
-    try {
-        const products = await product.find({}).populate('category').sort({createdAt: -1}).lean()
-        
-        const category  = req.params.category
-        const x = x.collection()
-        const Categories = await Category.find({category:category});
-        //execute the queryfilter method with a callback function
-        Categories.exec(function(err,catdata) {
-            if (err) return handleError(err);
-            console.log(catdata)
-        })
-        // console.log(doc,category)
-        res.render('home-page',{
-            products,Categories
-        })
-        
-    } catch (err) {
-        console.error(err);
-        res.render('error/404');
-        
-    }
-
-
-})
-
-router.get('/403', (req,res)=>{
-    res.render('error/403')
-})
 
 //get the link to add a product to the eccomerce application using a GET request
 router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{

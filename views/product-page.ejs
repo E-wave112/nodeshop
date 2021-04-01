@@ -33,16 +33,24 @@
   
             <p><%= Product.description %>.</p>
    
-            <form class="col s12" action="/product/<%= Product._id  %> "  method="POST"  id="paymentForm">
+            <form class="col s12" action="/product/<%= Product._id  %> "  method="POST"  id="paymentForm"   style="display: table; margin: auto;">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+               <!-- Default input -->
+               <input type="email" id="email-address"  placeholder="jondoe@yahoo.com" aria-label="Search" class="form-control" required>
+
+                <!-- Default input -->
+              <input type="text" id="first-name"  placeholder="Joane" aria-label="Search" class="form-control"  required>
+
+               <!-- Default input -->
+               <input type="text" id="last-name"  placeholder="Doe" aria-label="Search" class="form-control" required>
               
-              <input type="number" id="amount" name="" value="<%= ngnAmount %>" readonly required aria-label="Search"  class="form-control" style="width: 100px">
+              <input type="number" id="amount" name="" value="<%= ngnAmount %>" readonly required aria-label="Search"  class="form-control" >
               <br>
               
-              <!-- Default input -->
-              <input type="email" id="email-address"  placeholder="jondoe@yahoo.com" aria-label="Search" class="form-control" style="width: 100px" required>
+             
               
-              <input type="number" id="quantity" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <input type="number" id="quantity" value="1" aria-label="Search" class="form-control" style="width: 120px">
               
               <!-- in need of url editing -->
               <button class="btn btn-primary btn-md my-0 p"  onclick="payWithPaystack()" type="submit">Pay Now
