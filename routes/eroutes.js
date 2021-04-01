@@ -113,13 +113,13 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
              
           client.getSpotPrice({'currency': currencyCode}, function (err,price) {
                  currUs = price.data.amount;
-                 console.log('Current bitcoin price in ' + currencyCode + ': ' +  currUs);
+                 return 'Current bitcoin price in ' + currencyCode + ': ' +  currUs
              });
      
          client.getSpotPrice({'currency': currencyCode_n}, function (err,price) {
                  
                  currNg = price.data.amount;
-                 console.log('Current bitcoin price in ' + currencyCode_n + ': ' +  currNg);
+                 return 'Current bitcoin price in ' + currencyCode_n + ': ' +  currNg
              });
     
         }
@@ -133,7 +133,7 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = currUs / currNg
+        const ngnAmount = Product.price * 370.8
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
