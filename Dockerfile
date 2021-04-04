@@ -1,4 +1,4 @@
-from node as prod
+from node:15-alpine3.10 as prod
 
 WORKDIR /app
 
