@@ -1,0 +1,10 @@
+setup:
+  config:
+    APP_NAME: node_commerce
+build:
+  docker:
+    web: Dockerfile
+  config:
+    NODE_ENV: production
+run:
+  web: npm start
