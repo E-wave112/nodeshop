@@ -2,3 +2,20 @@ version: 2.1
 
 orbs:
   node: circleci/node@4.2.1
+jobs:
+  build:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t ewave112/fastcontainer:circleci .
+            docker images
+workflows:
+  build-deploy:
+    jobs:
+      - build
