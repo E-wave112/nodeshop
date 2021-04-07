@@ -10,7 +10,6 @@ const MongoStore = require('connect-mongo')(session)
 require('./config/passport')(passport);
 const helmet = require('helmet');
 const compression = require('compression');
-const port=process.env.PORT
 
 ///intitilaize the app
 const app = express();
@@ -92,11 +91,4 @@ app.use('/', require('./routes/eroutes'))
 app.use('/auth', require('./routes/auth'))
 app.use('/process',require('./routes/paymentroutes'))
 
-
-
-app.listen(port, ()=> {
-    
-    console.log(`server running  on port ${port}`)
-
-})
-
+module.exports = app
