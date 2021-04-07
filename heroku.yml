@@ -1,6 +1,6 @@
 setup:
   config:
-    APP_NAME: node_commerce
+    APP_NAME: node-comm
 build:
   docker:
     web: Dockerfile
