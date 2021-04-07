@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon app.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test":"jest"
   },
   "keywords": [
@@ -40,5 +40,8 @@
     "passport-google-oauth20": "^2.0.0",
     "request": "^2.81.0",
     "uuidv4": "^6.2.6"
+  },
+  "devDependencies": {
+    "jest": "^26.4.2"
   }
 }
