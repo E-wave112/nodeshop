@@ -2,9 +2,9 @@
   "name": "nodecommerce",
   "version": "1.0.0",
   "description": "an ecommmerce web application built with node.js",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon app.js"
   },
   "keywords": [
