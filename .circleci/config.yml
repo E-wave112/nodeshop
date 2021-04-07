@@ -1,13 +1,21 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@4.2.1
+  node: circleci/node@4.2.1     
 jobs:
-  build:
+  build-and-test:
     executor: node/default
     steps:
       - checkout
       - node/install-packages
+      - run: 
+          name: Running npm test
+          command: |
+            npm run test
+      - run:
+          name: Codecov coverage
+          command: |
+            npm run coverage
       - setup_remote_docker:
           version: 18.06.0-ce
       - run:
@@ -16,6 +24,7 @@ jobs:
             docker build -t ewave112/fastcontainer:circleci .
             docker images
 workflows:
-  build-deploy:
+  build-test-deploy:
     jobs:
-      - build
+      - build-and-test
+
