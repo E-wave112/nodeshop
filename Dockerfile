@@ -6,13 +6,14 @@ COPY package*.json ./
 
 RUN npm install
 
+ENV NODE_ENV=production
+
 
 EXPOSE 4000
 
-
 COPY  . .
 
-CMD [ "npm","start" ]
+CMD ["npm","run","start" ]
 
 #DEV DOCKERFILE
 from prod as dev

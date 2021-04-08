@@ -7,7 +7,7 @@ module.exports = function(passport){
     passport.use(new googleStrategy ({
         clientID:process.env.GOOGLE_CLIENT_ID,
         clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL:'/auth/google/callback'
+        callbackURL:'https://node-comm.herokuapp.com/auth/google/callback'
     }, async (accessToken, refreshToken, profile, done) => {
         //console.log(profile)
         const newUser = {
@@ -34,7 +34,6 @@ module.exports = function(passport){
         }
 
     }))
-
     passport.serializeUser((user, done) => {
         done(null, user.id);
       });
