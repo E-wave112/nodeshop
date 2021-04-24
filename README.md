@@ -1,6 +1,6 @@
 **Node Shop**
 
-A ecommerce application  (in progress) developed using NodeJS,Express,MongoDB and [Docker](https://docs.docker.com/)
+A ecommerce application  (in progress) developed using NodeJS,Express,MongoDB, [Docker](https://docs.docker.com/) and CircleCI as a CI/CD pipeline
 
 To get started with this project clone the repo by running the command git clone https://github.com/E-wave112/nodeshop.git or downloading the zip file
 
