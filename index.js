@@ -19,23 +19,23 @@ if (clusters.isMaster){
     //declare the required modules
         const app = require('./app');
         const port=process.env.PORT;
-        const mongoose = require('mongoose');
+        // const mongoose = require('mongoose');
 
-        const connectDB = async () =>{
-            try {
-                const connect = await mongoose.connect(process.env.dbURI, 
-                {useCreateIndex:true,
-                useUnifiedTopology:true,
-                useNewUrlParser:true
-            },
-            console.log('connected to db'))
+        // const connectDB = async () =>{
+        //     try {
+        //         const connect = await mongoose.connect(process.env.dbURI, 
+        //         {useCreateIndex:true,
+        //         useUnifiedTopology:true,
+        //         useNewUrlParser:true
+        //     },
+        //     console.log('connected to db'))
             
-            } catch (err) {
-                console.error(err)
-                process.exit(1)
-            }
-        }
-        connectDB()
+        //     } catch (err) {
+        //         console.error(err)
+        //         process.exit(1)
+        //     }
+        // }
+        // connectDB()
 
         app.listen(port, ()=> {
             console.log(`server running  on port ${port}`)

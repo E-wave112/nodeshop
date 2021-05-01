@@ -1,8 +1,8 @@
 //a primer on unit testing
-const app = require("../app");
-const Post = require("../models/product");
-const mongoose = require("mongoose");
 const supertest = require("supertest");
+const app = require("../app");
+const Product = require("../models/product");
+const mongoose = require("mongoose");
 
 it('Testing to see if Jest works', () => {
     expect(1).toBe(1)
@@ -23,6 +23,22 @@ afterEach((done) => {
   });
 });
 
-//create a testcase to get all products in the database
+//create a testcase to get a single product in the database
+test("GET /product/:id", async () => {
+  const product = await Product.create({ category: "category", user: "Emmy",name:"jean",image:"image",cloudinary_id:"id"
+,description:"a cool clothes",price:200,available:true });
 
-test("GET ")
+  await supertest(app).get("/product/" + product.id)
+    .expect(200)
+    .then((response) => {
+      expect(response.body._id).toBe(product.id);
+      expect(response.body.category).toBe(product.category);
+      expect(response.body.user).toBe(product.user);
+      expect(response.body.name).toBe(product.name);
+      expect(response.body.image).toBe(product.image);
+      expect(response.body.cloudinary_id).toBe(product.cloudinary_id);
+      expect(response.body.description).toBe(product.description);
+      expect(response.body.price).toBe(product.price);
+      expect(response.body.available).toBe(product.available);
+    });
+});
