@@ -11,7 +11,7 @@ it('Testing to see if Jest works', () => {
 
   //connect to mongodb before running a test
 beforeEach((done) => {
-  mongoose.connect(process.env.dbURI,
+  mongoose.connect(process.env.DB_URI,
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => done());
 });
@@ -22,3 +22,7 @@ afterEach((done) => {
     mongoose.connection.close(() => done())
   });
 });
+
+//create a testcase to get all products in the database
+
+test("GET ")
