@@ -10,26 +10,26 @@ it('Testing to see if Jest works', () => {
 
 
   //connect to mongodb before running a test
-beforeEach((done) => {
-  mongoose.connect(process.env.dbURI,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => done());
-});
+// beforeEach((done) => {
+//   mongoose.connect(process.env.dbURI,
+//     { useNewUrlParser: true, useUnifiedTopology: true },
+//     () => done());
+// });
 
-//drop the test data after a test case
-afterEach((done) => {
-  mongoose.connection.db.dropDatabase(() => {
-    mongoose.connection.close(() => done())
-  });
-});
-//create a testcase for the root route
-test("GET /",async ()=>{
-  await supertest(app).get('/')
-  .expect(200)
-  .then((res)=> {
-    expect(Array.isArray(res.body)).toBeTruthy()
-  })
-})
+// //drop the test data after a test case
+// afterEach((done) => {
+//   mongoose.connection.db.dropDatabase(() => {
+//     mongoose.connection.close(() => done())
+//   });
+// });
+// //create a testcase for the root route
+// test("GET /",async ()=>{
+//   await supertest(app).get('/')
+//   .expect(200)
+//   .then((res)=> {
+//     expect(Array.isArray(res.body)).toBeTruthy()
+//   })
+// })
 
 
 //create a testcase to get a single product in the database
