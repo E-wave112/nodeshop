@@ -92,12 +92,12 @@
       },
         //make an ajax call to the server to validate the transaction
         callback: function(response) {
-          window.location = "http://localhost:4000/payment_complete?reference=" + response.ref;
+          window.location = "https://node-comm.herokuapp.com/payment_complete?reference=" + response.ref;
 
       },
       onClose: function() {
   alert(' An error occured and the tranaction was not completed.');
-  window.location = "http://localhost:4000/"
+  window.location = "https://node-comm.herokuapp.com/"
 },
     });
     handler.openIframe();
