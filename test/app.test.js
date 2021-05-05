@@ -22,7 +22,7 @@ afterEach((done) => {
     mongoose.connection.close(() => done())
   });
 });
-//create a testcase for thr root route
+//create a testcase for the root route
 test("GET /",async ()=>{
   await supertest(app).get('/')
   .expect(200)
