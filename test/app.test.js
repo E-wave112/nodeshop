@@ -22,20 +22,30 @@ afterEach((done) => {
     mongoose.connection.close(() => done())
   });
 });
-//create a testcase to get a single product in the database
-test("GET /product/:id", async () => {
-  const product = await Product.create({name:"jean",image:"image",cloudinary_id:"id"
-,description:"a cool clothes",price:200,available:true });
+//create a testcase for thr root route
+test("GET /",async ()=>{
+  await supertest(app).get('/')
+  .expect(200)
+  .then((res)=> {
+    expect(Array.isArray(res.body)).toBeTruthy()
+  })
+})
 
-  await supertest(app).get("/product/" + product._id)
-    .expect(302)
-    .then((response) => {
-      // expect(response.body._id).toBe(product._id);
-      expect(response.body.name).toBe(product.name);
-      expect(response.body.image).toBe(product.image);
-      expect(response.body.cloudinary_id).toBe(product.cloudinary_id);
-      expect(response.body.description).toBe(product.description);
-      expect(response.body.price).toBe(product.price);
-      expect(response.body.available).toBe(product.available);
-    });
-});
+
+//create a testcase to get a single product in the database
+// test("GET /product/:id", async () => {
+//   const product = await Product.create({name:"jean",image:"image",cloudinary_id:"id"
+// ,description:"a cool clothes",price:200,available:true });
+
+//   await supertest(app).get("/product/" + product.id)
+//     .expect(302)
+//     .then((response) => {
+//       // expect(response.body._id).toBe(product.id);
+//       expect(response.body.name).toBe(product.name);
+//       expect(response.body.image).toBe(product.image);
+//       expect(response.body.cloudinary_id).toBe(product.cloudinary_id);
+//       expect(response.body.description).toBe(product.description);
+//       expect(response.body.price).toBe(product.price);
+//       expect(response.body.available).toBe(product.available);
+//     });
+// });
