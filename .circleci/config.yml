@@ -14,7 +14,7 @@ jobs:
           command: |
             npm run test
       - setup_remote_docker:
-          version: 19.03.8-ce
+          version: 18.06.0-ce
       - run:
           name: Build Docker image
           command: |
