@@ -5,7 +5,7 @@ services:
     image: ewave112/fastcontainer:dev
     build:
       context: .
-      target: dev
+      target: prod
     container_name: nodecommerce
     restart: always
     ports: 

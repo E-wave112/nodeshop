@@ -16,15 +16,15 @@ COPY  . .
 CMD ["npm","run","start" ]
 
 #DEV DOCKERFILE
-from prod as dev
+# from prod as dev
 
-ENV NODE_ENV=development
+# ENV NODE_ENV=development
 
-RUN npm install -g nodemon
+# RUN npm install -g nodemon
 
-RUN npm install --only=dev
+# RUN npm install --only=dev
 
-EXPOSE 3000
+# EXPOSE 3000
 
 
-CMD ["npm","run","dev"]
+# CMD ["npm","run","dev"]
