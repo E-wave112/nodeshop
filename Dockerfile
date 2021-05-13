@@ -15,6 +15,7 @@ COPY  . .
 
 CMD ["npm","run","start" ]
 
+
 #DEV DOCKERFILE
 from prod as dev
 
