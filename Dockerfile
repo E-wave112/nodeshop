@@ -16,7 +16,7 @@ COPY  . .
 CMD ["npm","run","start" ]
 
 
-#DEV DOCKERFILE
+# DEV DOCKERFILE
 from prod as dev
 
 ENV NODE_ENV=development
