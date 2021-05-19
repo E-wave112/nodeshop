@@ -121,23 +121,13 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     
         }
 
-       let v = coinPriceUsd();
-
-       try {
-        const getPrice = client.getSpotPrice({'currency':'NGN'})
-        let realPrice=getPrice.data.amount
-        console.log(realPrice);
-           
-       } catch (err) {
-           console.error(err);
-       }
-          
+       let v = coinPriceUsd(); 
 
     try {
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = Product.price * realPrice;
+        const ngnAmount = Product.price * 379.9;
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
