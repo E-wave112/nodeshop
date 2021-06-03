@@ -13,6 +13,7 @@ const nodemailer = require("nodemailer");
 const async = require('async');
 const upload = require("../utils/multer");
 const payment = require('../models/paymodel');
+const axios = require('axios');
 //require the coinbase clinet
 const coinbaseClient = require('coinbase').Client;
 const sgMail = require('@sendgrid/mail');
@@ -103,6 +104,17 @@ router.get('/category', async (req,res) => {
 //get  product details
 router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
 
+
+    async function getExchangeRate() {
+        try {
+          const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
+          console.log(rateNgn)
+          return rateNgn.rates.NGN
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
         let coinPriceUsd = () => {
             currencyCode = 'USD'
             currencyCode_n = 'NGN'
@@ -127,7 +139,7 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
         
         const id = mongoose.Types.ObjectId(req.params.id)
         const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = Product.price * 379.9;
+        const ngnAmount = Product.price * getExchangeRate();
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
