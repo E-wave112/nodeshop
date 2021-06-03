@@ -109,7 +109,7 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
         try {
           const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
           console.log(rateNgn)
-          return rateNgn.NGN
+          return rateNgn.rates['NGN']
         } catch (err) {
           console.error(err);
         }
