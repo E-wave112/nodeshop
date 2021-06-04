@@ -95,21 +95,21 @@ router.get('/category', async (req,res) => {
 //get  product details
 router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
 
+    const id = mongoose.Types.ObjectId(req.params.id)
+    const Product = await product.findById(id).populate('category').lean()
+
 
     async function getExchangeRate() {
         try {
           const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
-          return Number(rateNgn.data.rates.NGN);
+          console.log(Product.price * Number(rateNgn.data.rates.NGN));
         } catch (err) {
           console.error(err);
         }
       }
 
     try {
-        
-        const id = mongoose.Types.ObjectId(req.params.id)
-        const Product = await product.findById(id).populate('category').lean()
-        const ngnAmount = Product.price * Number(getExchangeRate());
+        const ngnAmount = getExchangeRate();
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
