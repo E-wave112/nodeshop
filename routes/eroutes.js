@@ -109,7 +109,7 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
       }
 
     try {
-        const ngnAmount = getExchangeRate();
+        const ngnAmount = await getExchangeRate();
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
