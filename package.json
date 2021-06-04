@@ -19,7 +19,6 @@
     "@sendgrid/mail": "^7.4.2",
     "axios": "^0.21.1",
     "cloudinary": "^1.23.0",
-    "coinbase": "^2.0.8",
     "compression": "^1.7.4",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",

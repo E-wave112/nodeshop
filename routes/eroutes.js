@@ -14,17 +14,8 @@ const async = require('async');
 const upload = require("../utils/multer");
 const payment = require('../models/paymodel');
 const axios = require('axios');
-//require the coinbase clinet
-const coinbaseClient = require('coinbase').Client;
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-let client = new coinbaseClient({
-    'apiKey': process.env.COINBASE_API_KEY,
-    'apiSecret': process.env.COINBASE_API_SECRET,
-    'version':'YYYY-MM-DD',
-    strictSSL:false
-  });
 
 
 
@@ -108,31 +99,11 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     async function getExchangeRate() {
         try {
           const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
-          return rateNgn.data.rates.NGN
+          return Number(rateNgn.data.rates.NGN);
         } catch (err) {
           console.error(err);
         }
       }
-
-        let coinPriceUsd = () => {
-            currencyCode = 'USD'
-            currencyCode_n = 'NGN'
-             
-          client.getSpotPrice({'currency': currencyCode}, async function (err,price) {
-                 currUs = price.data.amount;
-                console.log(currUs)
-             return currUs
-             });
-     
-        //  client.getSpotPrice({'currency': currencyCode_n}, async function (err,price) {
-                 
-        //          currNg = await price.data.amount;
-        //          console.log(currNg)
-        //      });
-    
-        }
-
-       let v = coinPriceUsd(); 
 
     try {
         
