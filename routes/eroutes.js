@@ -98,26 +98,38 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     const id = mongoose.Types.ObjectId(req.params.id)
     const Product = await product.findById(id).populate('category').lean()
 
+    const getExchangeRate = async () => {
+        axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`)
+    .then((res)=>{
+        console.log(Number(res.data.rates.NGN)* Product.price)
+
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+
 
     async function getExchangeRate() {
         try {
-            const rateUsd = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=USD`)
-            const rateNgn = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=NGN`)
+            // const rateUsd = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=USD`)
+            // const rateNgn = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=NGN`)
            // console.log(rateNgn)
             // let mull = rateNgn.data.rates.NGN
             // console.log(Number(mull))
-            let mul = rateUsd.data.data.amount
-          let muln = rateNgn.data.data.amount
-          console.log(Product.price*Number(muln)/Number(mul))
-        //   const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
-        //   console.log(Product.price * Number(rateNgn.data.rates.NGN));
+        //     let mul = rateUsd.data.data.amount
+        //   let muln = rateNgn.data.data.amount
+        //  // console.log(Product.price*Number(muln)/Number(mul))
+          const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
+          rate = Product.price * Number(rateNgn.data.rates.NGN);
+          console.log(rate)
         } catch (err) {
           console.error(err);
         }
       }
 
     try {
-        const ngnAmount = getExchangeRate();
+        const ngnAmount = rate;
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
