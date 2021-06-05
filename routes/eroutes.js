@@ -110,26 +110,26 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
 // }
 
 
-    async function getExchangeRate() {
-        try {
-            // const rateUsd = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=USD`)
-            // const rateNgn = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=NGN`)
-           // console.log(rateNgn)
-            // let mull = rateNgn.data.rates.NGN
-            // console.log(Number(mull))
-        //     let mul = rateUsd.data.data.amount
-        //   let muln = rateNgn.data.data.amount
-        //  // console.log(Product.price*Number(muln)/Number(mul))
-          const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
-          rate = Product.price * Number(rateNgn.data.rates.NGN);
-          console.log(rate)
-        } catch (err) {
-          console.error(err);
-        }
-      }
+    // async function getExchangeRate() {
+    //     try {
+    //         // const rateUsd = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=USD`)
+    //         // const rateNgn = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=NGN`)
+    //        // console.log(rateNgn)
+    //         // let mull = rateNgn.data.rates.NGN
+    //         // console.log(Number(mull))
+    //     //     let mul = rateUsd.data.data.amount
+    //     //   let muln = rateNgn.data.data.amount
+    //     //  // console.log(Product.price*Number(muln)/Number(mul))
+    //       const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
+    //       rate = Product.price * Number(rateNgn.data.rates.NGN);
+    //       console.log(rate)
+    //     } catch (err) {
+    //       console.error(err);
+    //     }
+    //   }
 
     try {
-        const ngnAmount = rate;
+        const ngnAmount = Product.price * 405;
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
