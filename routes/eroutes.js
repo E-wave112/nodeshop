@@ -100,7 +100,7 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     const Product = await product.findById(id).populate('category').lean()
 
     try {
-        const ngnAmount = Product.price * exchangeRate();
+        const ngnAmount = Product.price * 412;
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
