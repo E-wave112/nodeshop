@@ -11,7 +11,6 @@ async function getExchangeRate() {
       //return rateNgn
     } catch (err) {
       console.error(err);
-      return res.status(500).send(err.message);
     }
   }
 
