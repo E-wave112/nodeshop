@@ -204,6 +204,7 @@ router.get('/add-product',  ensureAuth, accessControl, csrfProtection, async (re
     try {
 
        const categories  = await Category.find().sort({createdAt:-1});
+       req.body.token = token
        let authToken = req.body.token
        //console.log(categories)
        res.render('addproduct',{categories:categories,csrfToken:req.csrfToken(),authtoken:authToken})
@@ -222,6 +223,7 @@ router.post('/add-product', upload.single("image"),ensureAuth, accessControl,par
     const result = await cloudinary.uploader.upload(req.file.path);
     //assert the populate db relationship
         req.body.user = req.user.id
+        req.body.token = token
 
         let Product = new product({
             category: req.body.category,
@@ -229,7 +231,6 @@ router.post('/add-product', upload.single("image"),ensureAuth, accessControl,par
             image: result.secure_url,
             description:req.body.description,
             price:req.body.price,
-            token:req.body.token
         })
        await Product.save()
         res.redirect('/')
