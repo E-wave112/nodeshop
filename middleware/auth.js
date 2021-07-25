@@ -15,10 +15,10 @@ module.exports = {
     },
     accessControl: function(req,res,next){
         if (req.isAuthenticated()){
-            if (req.body.token){
-                return next();
+            if (!req.body.token){
+                return res.redirect('/')
             } else {
-                res.redirect('/');
+                next()
             }
         } else {
             res.redirect('/login');
