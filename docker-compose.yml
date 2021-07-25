@@ -2,14 +2,14 @@ version: "3.7"
 
 services:
   web: 
-    image: ewave112/fastcontainer:dev
+    image: ewave112/fastcontainer:prod
     build:
       context: .
       target: prod
-    container_name: nodecommerce
+    container_name: nodeshop
     restart: always
     ports: 
-      - "4000:4000"
+      - "3000:3000"
     volumes: 
       - .:/app
     env_file: 
@@ -27,6 +27,7 @@ services:
       - SENGRID_API_KEY=${SENDGRID_API_KEY}
       - MAIL_TRAP_USER=${MAIL_TRAP_USER}
       - MAIL_TRAP_PASS=${MAIL_TRAP_PASS}
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
     networks: 
       - nodecommerce-network
 

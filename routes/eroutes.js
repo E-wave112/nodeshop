@@ -3,7 +3,7 @@ const router = require('express').Router();
 const bodyParser= require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
-const {ensureAuth} = require('../middleware/auth');
+const {ensureAuth,accessControl} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
@@ -16,7 +16,8 @@ const payment = require('../models/paymodel');
 const axios = require('axios');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+const token = process.env.ADMIN_TOKEN;
+const exchangeRate = require('../utils/currency_conv');
 
 
 //create a global transport object
@@ -98,38 +99,8 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     const id = mongoose.Types.ObjectId(req.params.id)
     const Product = await product.findById(id).populate('category').lean()
 
-//     const getExchangeRate = async () => {
-//         axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`)
-//     .then((res)=>{
-//         console.log(Number(res.data.rates.NGN)* Product.price)
-
-//     })
-//     .catch((err)=>{
-//         console.error(err)
-//     })
-// }
-
-
-    // async function getExchangeRate() {
-    //     try {
-    //         // const rateUsd = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=USD`)
-    //         // const rateNgn = await axios.get(`https://api.coinbase.com/v2/prices/spot?currency=NGN`)
-    //        // console.log(rateNgn)
-    //         // let mull = rateNgn.data.rates.NGN
-    //         // console.log(Number(mull))
-    //     //     let mul = rateUsd.data.data.amount
-    //     //   let muln = rateNgn.data.data.amount
-    //     //  // console.log(Product.price*Number(muln)/Number(mul))
-    //       const rateNgn = await axios.get(`https://api.currencyfreaks.com/latest?apikey=${process.env.CURRENCY_API_KEY}`);
-    //       rate = Product.price * Number(rateNgn.data.rates.NGN);
-    //       console.log(rate)
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //   }
-
     try {
-        const ngnAmount = Product.price * 405;
+        const ngnAmount = Product.price * exchangeRate();
         res.render('product-page', {
             Product,ngnAmount, csrfToken:req.csrfToken()
         })
@@ -228,12 +199,14 @@ router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=
 
 
 //get the link to add a product to the eccomerce application using a GET request
-router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
+router.get('/add-product',  ensureAuth, accessControl, csrfProtection, async (req,res) =>{
 
     try {
+
        const categories  = await Category.find().sort({createdAt:-1});
+       let authToken = req.body.token
        //console.log(categories)
-       res.render('addproduct',{categories:categories,csrfToken:req.csrfToken()})
+       res.render('addproduct',{categories:categories,csrfToken:req.csrfToken(),authtoken:authToken})
 
     } catch (err) {
         console.error(err);
@@ -243,7 +216,7 @@ router.get('/add-product',  ensureAuth, csrfProtection, async (req,res) =>{
 })
 
 //post the filled form
-router.post('/add-product', upload.single("image"),ensureAuth, parseForm, csrfProtection,async (req,res)=>{
+router.post('/add-product', upload.single("image"),ensureAuth, accessControl,parseForm, csrfProtection,async (req,res)=>{
     try {
          // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
@@ -256,7 +229,7 @@ router.post('/add-product', upload.single("image"),ensureAuth, parseForm, csrfPr
             image: result.secure_url,
             description:req.body.description,
             price:req.body.price,
-            
+            token:req.body.token
         })
        await Product.save()
         res.redirect('/')
