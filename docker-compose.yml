@@ -28,6 +28,7 @@ services:
       - MAIL_TRAP_USER=${MAIL_TRAP_USER}
       - MAIL_TRAP_PASS=${MAIL_TRAP_PASS}
       - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - JWT_TOKEN=${JWT_TOKEN}
     networks: 
       - nodecommerce-network
 
