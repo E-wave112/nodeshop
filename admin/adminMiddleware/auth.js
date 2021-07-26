@@ -8,7 +8,7 @@ const requireAuth = (req,res,next) => {
         jwt.verify(token,process.env.JWT_TOKEN,(err, decodedToken)=>{
             if (err){
                 //console.log(err.message)
-                res.redirect('/login')
+                res.redirect('/admin/login')
             } else {
                 console.log(decodedToken)
                 next();
@@ -16,7 +16,7 @@ const requireAuth = (req,res,next) => {
         })
     }
     else {
-        res.redirect('/login')
+        res.redirect('/admin/login')
     }
 }
 

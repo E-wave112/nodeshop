@@ -1,9 +1,17 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
+let emailRegexVal = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 const adminSchema = new mongoose.Schema({
     mail:{
         type:String,
+        validate:{
+            validator:function(v){
+                return emailRegexVal.test(v)
+            },
+            message:mail => `${mail.value} is not a valid email address !`
+        },
         required:[true, 'please enter an email address'],
         unique:true,
         lowercase:true
