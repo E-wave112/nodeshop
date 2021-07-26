@@ -90,5 +90,6 @@ app.use(passport.session())
 app.use('/', require('./routes/eroutes'))
 app.use('/auth', require('./routes/auth'))
 app.use('/process',require('./routes/paymentroutes'))
+app.use('/admin', require('./admin/adminRoutes/route'))
 
 module.exports = app

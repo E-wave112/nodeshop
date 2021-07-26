@@ -3,7 +3,7 @@ const router = require('express').Router();
 const bodyParser= require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
-const {ensureAuth,accessControl} = require('../middleware/auth');
+const {ensureAuth} = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
@@ -16,8 +16,8 @@ const payment = require('../models/paymodel');
 const axios = require('axios');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const token = process.env.ADMIN_TOKEN;
-const exchangeRate = require('../utils/currency_conv');
+const {requireAuth} = require('../admin/adminMiddleware/auth')
+// const exchangeRate = require('../utils/currency_conv');
 
 
 //create a global transport object
@@ -199,15 +199,13 @@ router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=
 
 
 //get the link to add a product to the eccomerce application using a GET request
-router.get('/add-product',  ensureAuth, accessControl, csrfProtection, async (req,res) =>{
+router.get('/add-product',  ensureAuth,requireAuth, csrfProtection, async (req,res) =>{
 
     try {
 
        const categories  = await Category.find().sort({createdAt:-1});
-       req.body.token = token
-       let authToken = req.body.token
        //console.log(categories)
-       res.render('addproduct',{categories:categories,csrfToken:req.csrfToken(),authtoken:authToken})
+       res.render('addproduct',{categories:categories,csrfToken:req.csrfToken()})
 
     } catch (err) {
         console.error(err);
@@ -217,7 +215,7 @@ router.get('/add-product',  ensureAuth, accessControl, csrfProtection, async (re
 })
 
 //post the filled form
-router.post('/add-product', upload.single("image"),ensureAuth, accessControl,parseForm, csrfProtection,async (req,res)=>{
+router.post('/add-product', upload.single("image"),ensureAuth,requireAuth,parseForm, csrfProtection,async (req,res)=>{
     try {
          // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
