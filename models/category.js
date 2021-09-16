@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
     category:{
@@ -6,6 +6,11 @@ const categorySchema = new mongoose.Schema({
         required:true,
         trim:true
     },
+
+    createdAt:{
+        type:Date,
+        default:Date.now()
+    } 
     
 
 })
