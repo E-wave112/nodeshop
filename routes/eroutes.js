@@ -72,16 +72,16 @@ router.get('/', async (req,res)=>{
 router.get('/category', async (req,res) => {
 
     let cates = [];
-    const products = await product.find({}).populate('category').populate('user').sort({createdAt: -1}).lean().exec()
+    const products = await product.find({}).populate(['category','user']).sort({createdAt: -1}).lean()
     const categories = await Category.find({}).sort({createdAt: -1}).lean()
     categories.forEach(cat => {
         cates.push(cat.category)
     });
     for (let cat of cates){
-        if (! req.query.category === cat){
-            res.redirect('/');
+        if (!req.query.category === cat){
+            return res.redirect('/');
         } 
-            var productFilt = products.filter(prod=>prod.category.category === cat);
+            var productFilt = products.filter(product=>product.category === cat);
         
     }
     console.log(productFilt, products)
