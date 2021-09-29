@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {ensureAuth} = require('../middleware/auth');
+const { ensureAuth } = require('../middleware/auth');
 const csrf = require('csurf');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -18,25 +18,25 @@ let transport = {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: process.env.MAIL_TRAP_USER,
-      pass:process.env.MAIL_TRAP_PASS
-      }
+        user: process.env.MAIL_TRAP_USER,
+        pass: process.env.MAIL_TRAP_PASS
     }
+}
 
 
 //cookie middleware
 router.use(cookieParser())
-const parseForm = bodyParser.urlencoded({extended:false})
+const parseForm = bodyParser.urlencoded({ extended: false })
 router.use(bodyParser.json())
 //csrf middleware
-const csrfProtection = csrf({cookie:true});
+const csrfProtection = csrf({ cookie: true });
 
 
 
 //route for completed payment
-router.get('/complete', (req,res)=>{
+router.get('/complete', (req, res) => {
 
-    if (! req.query.reference){
+    if (!req.query.reference) {
         res.redirect('/')
     }
     res.render('payment/payment_complete')

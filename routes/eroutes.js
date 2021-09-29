@@ -1,9 +1,9 @@
 //intialize express routers
 const router = require('express').Router();
-const bodyParser= require('body-parser');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
-const {ensureAuth} = require('../middleware/auth');
+const { ensureAuth } = require('../middleware/auth');
 const product = require('../models/product');
 const Category = require('../models/category');
 const cloudinary = require("../utils/cloudinary");
@@ -16,7 +16,7 @@ const payment = require('../models/paymodel');
 const axios = require('axios');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const {requireAuth} = require('../admin/adminMiddleware/auth')
+const { requireAuth } = require('../admin/adminMiddleware/auth')
 // const exchangeRate = require('../utils/currency_conv');
 
 
@@ -25,75 +25,75 @@ let transport = {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: process.env.MAIL_TRAP_USER,
-      pass:process.env.MAIL_TRAP_PASS
-      }
+        user: process.env.MAIL_TRAP_USER,
+        pass: process.env.MAIL_TRAP_PASS
     }
+}
 
 
 // error handler
 router.use(function (err, req, res, next) {
-    if (err.code !== 'EBADCSRFTOKEN'){
-    // handle CSRF token errors here
-    res.status(403)
-    res.render('error/403')
-    return next(err)
+    if (err.code !== 'EBADCSRFTOKEN') {
+        // handle CSRF token errors here
+        res.status(403)
+        res.render('error/403')
+        return next(err)
 
-    } 
-  
-    
-  })
+    }
+
+
+})
 //cookie parser middleware
 router.use(cookieParser())
 
 //body parser middleware
-const parseForm = bodyParser.urlencoded({extended:true})
+const parseForm = bodyParser.urlencoded({ extended: true })
 
 //csrf middleware
-const csrfProtection = csrf({cookie:true});
+const csrfProtection = csrf({ cookie: true });
 
 
-router.get('/', async (req,res)=>{
-    
-    const products = await product.find({}).populate(['category','user']).sort({createdAt: -1}).lean();
+router.get('/', async (req, res) => {
+
+    const products = await product.find({}).populate(['category', 'user']).sort({ createdAt: -1 }).lean();
     const user = await User.find({}).lean()
-    limit = req.query.limit 
-    req.query.page = ~~( products.length/req.query.limit)
+    limit = req.query.limit
+    req.query.page = ~~(products.length / req.query.limit)
     console.log(req.query.page)
-    const categories = await Category.find({}).sort({createdAt: -1}).lean()
+    const categories = await Category.find({}).sort({ createdAt: -1 }).lean()
     res.render('home-page', {
-        products,categories,user
+        products, categories, user
     })
-    
+
 })
 
 //filter products by category
-router.get('/category', async (req,res) => {
+router.get('/category', async (req, res) => {
 
     let cates = [];
-    const products = await product.find({}).populate(['category','user']).sort({createdAt: -1}).lean()
-    const categories = await Category.find({}).sort({createdAt: -1}).lean()
+    const products = await product.find({}).populate(['category', 'user']).sort({ createdAt: -1 }).lean()
+    const categories = await Category.find({}).sort({ createdAt: -1 }).lean()
     categories.forEach(cat => {
         cates.push(cat.category)
     });
-    for (let cat of cates){
-        if (!req.query.category === cat){
+    for (let cat of cates) {
+        if (!req.query.category === cat) {
             return res.redirect('/');
-        } 
-            var productFilt = products.filter(product=>product.category === cat);
-        
+        }
+        var productFilt = products.filter(product => product.category === cat);
+
     }
     console.log(productFilt, products)
 
-    res.render('productfilter',{
-        products,cates,productFilt
+    res.render('productfilter', {
+        products, cates, productFilt
     })
 
 })
 
 
 //get  product details
-router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
+router.get('/product/:id', ensureAuth, csrfProtection, async (req, res) => {
 
     const id = mongoose.Types.ObjectId(req.params.id)
     const Product = await product.findById(id).populate('category').lean()
@@ -101,9 +101,9 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
     try {
         const ngnAmount = Product.price * 412;
         res.render('product-page', {
-            Product,ngnAmount, csrfToken:req.csrfToken()
+            Product, ngnAmount, csrfToken: req.csrfToken()
         })
-        console.log(Product,ngnAmount)
+        console.log(Product, ngnAmount)
     } catch (err) {
         console.error(err)
         res.render('error/404')
@@ -112,73 +112,73 @@ router.get('/product/:id',  ensureAuth, csrfProtection, async (req,res)=> {
 
 
 //post request for payment
-router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=>{
+router.post('/product/:id', ensureAuth, csrfProtection, parseForm, async (req, res) => {
     //assert the populate db relationship
     req.body.user = req.user.id
     //create an array to store payment data in the db
     var arr = []
     async.waterfall([
-        function(done){
+        function (done) {
             let pay = new payment({
-                amount:req.body.amount,
-                email:req.body.email,
-                firstname:req.body.firstname,
-                lastname:req.body.lastname
+                amount: req.body.amount,
+                email: req.body.email,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname
             })
             //push the newly created data into the array
             arr.push(pay)
-            pay.save((err)=>{
-                done(err,pay)
+            pay.save((err) => {
+                done(err, pay)
             });
         },
-        function(pay,done){
-            if (!process.env.NODE_ENV === 'production'){
-    
-   
-            let transporter = nodemailer.createTransport(transport)
-               // send mail with defined transport object
-               let info =  transporter.sendMail({
-                from: 'iyayiemmanuel1@gmail.com', // sender address
-                to: pay.email, // list of receivers
-                subject: "Notice of a Transaction", // Subject line,
-                html: `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`, // html body
-               }, (err,info)=>{
-                   if (err){
-                       console.error(err)
-                   }
-                   else{
-                       console.log(info)
-                   }
-                   done(err,'done')
-               });
+        function (pay, done) {
+            if (!process.env.NODE_ENV === 'production') {
 
-            }else {
+
+                let transporter = nodemailer.createTransport(transport)
+                // send mail with defined transport object
+                let info = transporter.sendMail({
+                    from: 'iyayiemmanuel1@gmail.com', // sender address
+                    to: pay.email, // list of receivers
+                    subject: "Notice of a Transaction", // Subject line,
+                    html: `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`, // html body
+                }, (err, info) => {
+                    if (err) {
+                        console.error(err)
+                    }
+                    else {
+                        console.log(info)
+                    }
+                    done(err, 'done')
+                });
+
+            } else {
                 const msg = {
                     to: pay.email, // Change to your recipient
                     from: 'iyayiemmanuel1@gmail.com', // Change to your verified sender
                     subject: 'Notice of a Transaction',
                     text: `Dear ${pay.firstname} your payment has been recieved and verified !`,
-                    html:  `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`,
-                  }
-                  
-                  sgMail
+                    html: `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`,
+                }
+
+                sgMail
                     .send(msg)
                     .then(() => {
-                      console.log('Email sent')
+                        console.log('Email sent')
                     })
                     .catch((error) => {
-                      console.error(error)
+                        console.error(error)
                     })
             }
         }
 
-    ], function(err){
-        if (err){
+    ], function (err) {
+        if (err) {
             console.error(err)
             res.redirect('/');
             return next(err);
         }
-        else{
+        else {
             console.log('data', data)
             res.redirect('/process/complete');
         }
@@ -193,32 +193,32 @@ router.post('/product/:id',ensureAuth,csrfProtection, parseForm,async (req,res)=
     //     console.error(err)
     //     res.render('error/500')
     // }
-  
- })
+
+})
 
 
 //get the link to add a product to the eccomerce application using a GET request
-router.get('/add-product',  ensureAuth,requireAuth, csrfProtection, async (req,res) =>{
+router.get('/add-product', ensureAuth, requireAuth, csrfProtection, async (req, res) => {
 
     try {
 
-       const categories  = await Category.find().sort({createdAt:-1});
-       //console.log(categories)
-       res.render('addproduct',{categories:categories,csrfToken:req.csrfToken()})
+        const categories = await Category.find().sort({ createdAt: -1 });
+        //console.log(categories)
+        res.render('addproduct', { categories: categories, csrfToken: req.csrfToken() })
 
     } catch (err) {
         console.error(err);
         res.render('error/500');
-        
+
     }
 })
 
 //post the filled form
-router.post('/add-product', upload.single("image"),ensureAuth,requireAuth,parseForm, csrfProtection,async (req,res)=>{
+router.post('/add-product', upload.single("image"), ensureAuth, requireAuth, parseForm, csrfProtection, async (req, res) => {
     try {
-         // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
-    //assert the populate db relationship
+        // Upload image to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+        //assert the populate db relationship
         req.body.user = req.user.id
         req.body.token = token
 
@@ -226,12 +226,12 @@ router.post('/add-product', upload.single("image"),ensureAuth,requireAuth,parseF
             category: req.body.category,
             name: req.body.name,
             image: result.secure_url,
-            description:req.body.description,
-            price:req.body.price,
+            description: req.body.description,
+            price: req.body.price,
         })
-       await Product.save()
+        await Product.save()
         res.redirect('/')
-        
+
     } catch (err) {
         console.error(err)
         res.render('error/500')
@@ -240,7 +240,7 @@ router.post('/add-product', upload.single("image"),ensureAuth,requireAuth,parseF
 
 
 
-router.get('/login', (req,res) =>{
+router.get('/login', (req, res) => {
     res.render('login')
 })
 
