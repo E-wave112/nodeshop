@@ -55,15 +55,14 @@ const csrfProtection = csrf({cookie:true});
 
 router.get('/', async (req,res)=>{
     
-    const products = await product.find({}).populate('category').populate('user').sort({createdAt: -1}).lean().exec()
-    const id = mongoose.Types.ObjectId(req.params.id)
+    const products = await product.find({}).populate(['category','user']).sort({createdAt: -1}).lean();
     const user = await User.find({}).lean()
     limit = req.query.limit 
     req.query.page = ~~( products.length/req.query.limit)
     console.log(req.query.page)
     const categories = await Category.find({}).sort({createdAt: -1}).lean()
     res.render('home-page', {
-        products,categories,user,id
+        products,categories,user
     })
     
 })
