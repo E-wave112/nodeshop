@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     },
 
     user:{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
 
@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema({
         trim:true,
         maxLength:100
     },
-
+    
     image:{
 
          type: String

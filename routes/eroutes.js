@@ -56,6 +56,7 @@ const csrfProtection = csrf({ cookie: true });
 router.get('/', async (req, res) => {
 
     const products = await product.find({}).populate(['category', 'user']).sort({ createdAt: -1 }).lean();
+    console.log(products);
     const user = await User.find({}).lean()
     limit = req.query.limit
     req.query.page = ~~(products.length / req.query.limit)
@@ -71,19 +72,31 @@ router.get('/', async (req, res) => {
 router.get('/category', async (req, res) => {
 
     let cates = [];
+    //let productFilt;
     const products = await product.find({}).populate(['category', 'user']).sort({ createdAt: -1 }).lean()
-    const categories = await Category.find({}).sort({ createdAt: -1 }).lean()
+    const categories = await Category.find({}).sort({ createdAt: -1 }).lean();
     categories.forEach(cat => {
         cates.push(cat.category)
+
+        // if (!req.query.category === cat.category) {
+        //     return res.redirect('/');
+        // }
+        
+        // productFilt = products.filter(product => product.category.category === cat.category);
+        // console.log(productFilt);
     });
-    for (let cat of cates) {
-        if (!req.query.category === cat) {
+    
+
+    console.log(cates)
+    for (let category of cates) {
+        if (!req.query.category === category) {
             return res.redirect('/');
         }
-        var productFilt = products.filter(product => product.category === cat);
+        
+        var productFilt = products.filter(product => product.category.category === category);
 
     }
-    console.log(productFilt, products)
+    
 
     res.render('productfilter', {
         products, cates, productFilt
