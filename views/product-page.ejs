@@ -21,7 +21,7 @@
           <div class="p-4">
             <div class="mb-3">
               <a href="">
-                <span class="badge purple mr-1"><%= Product.category %></span>
+                <span class="badge purple mr-1"><%= Product.category.category %></span>
               </a>
             </div>
   
@@ -77,11 +77,11 @@
   function payWithPaystack(e) {
     e.preventDefault();
     let handler = PaystackPop.setup({
-      key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
+      key: 'pk_test_49f9d7192d0f9ab259b11f151566b3ae10cc8444', // Replace with your public key
       email: document.getElementById("email-address").value,
       amount: document.getElementById("amount").value * 100 * document.getElementById("quantity").value,
       currency: 'NGN',
-      ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      ref: ''+Math.floor((Math.random() * 1000000000) + 1).toString(), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
       // label: "Optional string that replaces customer email"
       onClose: function(){
         alert('Window closed, payment successful !');
@@ -92,12 +92,12 @@
       },
         //make an ajax call to the server to validate the transaction
         callback: function(response) {
-          window.location = "https://node-comm.herokuapp.com/payment_complete?reference=" + response.ref;
+          window.location = "https://node-comm.herokuapp.com/process/complete?reference=" + response.ref;
 
       },
       onClose: function() {
   alert(' An error occured and the tranaction was not completed.');
-  window.location = "https://node-comm.herokuapp.com/"
+  window.location = `https://node-comm.herokuapp.com/product/${Product._id}`
 },
     });
     handler.openIframe();

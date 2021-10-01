@@ -106,7 +106,7 @@ router.get('/category', async (req, res) => {
 
 
 //get  product details
-router.get('/product/:id', ensureAuth, csrfProtection, async (req, res) => {
+router.get('/product/:id', csrfProtection, async (req, res) => {
 
     const id = mongoose.Types.ObjectId(req.params.id)
     const Product = await product.findById(id).populate('category').lean()
