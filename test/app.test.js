@@ -34,18 +34,14 @@ describe('tests', () => {
   })
 
   test("GET /product/:id", async () => {
-    const product = await Product.create({
-      name: "jean", image: "image", cloudinary_id: "id"
-      , description: "a cool clothes", price: 200, available: true
-    });
 
-    let res = await supertest(app).get("/product/" + product._id)
+    let testId = "605a67748509472e2925dc52"
+    let res = await supertest(app).get("/product/" + testId)
     // expect(response.body._id).toBe(product.id);
     expect(res.header['content-type']).toBe('text/plain; charset=utf-8');
     expect(res.body).toBeTruthy();
     expect(res.statusCode).toBe(302);
   });
-
 
 
 });
