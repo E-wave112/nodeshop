@@ -71,6 +71,8 @@ router.get('/', async (req, res) => {
 //filter products by category
 router.get('/category', async (req, res) => {
 
+    let catees = [ 'shirts', 'sportwears', 'outwears', 'beverage', 'Footwears' ];
+
     let cates = [];
     //let productFilt;
     const products = await product.find({}).populate(['category', 'user']).sort({ createdAt: -1 }).lean()
@@ -85,17 +87,33 @@ router.get('/category', async (req, res) => {
         // productFilt = products.filter(product => product.category.category === cat.category);
         // console.log(productFilt);
     });
-    
-
-    console.log(cates)
-    for (let category of cates) {
-        if (!req.query.category === category) {
-            return res.redirect('/');
-        }
-        
-        var productFilt = products.filter(product => product.category.category === category);
-
+    const category = req.query.category
+    switch (category) {
+        case 'shirts':
+            var productFilt = products.filter(product => product.category.category === 'shirts');
+            break;
+        case 'sportwears':
+            var productFilt = products.filter(product => product.category.category === 'sportwears');
+            break;
+        case 'outwears':
+            var productFilt = products.filter(product => product.category.category === 'outwears');
+            break;
+        case 'beverage':
+            var productFilt = products.filter(product => product.category.category === 'beverage');
+            break;
+        case 'Footwears':
+            var productFilt = products.filter(product => product.category.category === 'Footwears');
+            break;
     }
+    // console.log(cates)
+    // for (let category of cates) {
+    //     if (!req.query.category === category) {
+    //         return res.redirect('/');
+    //     }
+        
+    //     var productFilt = products.filter(product => product.category.category === category);
+
+    // }
     
 
     res.render('productfilter', {
