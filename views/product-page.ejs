@@ -26,7 +26,7 @@
             </div>
   
             <p class="lead">
-              <span> $<%= Product.price %></span>
+              <span class="span-price"> $<%= Product.price %></span>
             </p>
   
             <p class="lead font-weight-bold">Description</p>
@@ -46,8 +46,9 @@
                <input type="text" id="last-name"  placeholder="Doe" aria-label="Search" class="form-control" required>
               
               <input type="number" id="amount" name="" value="<%= ngnAmount %>" readonly required aria-label="Search"  class="form-control" >
-              <br>
-              
+
+              <input type="hidden" id="product-id" name="" value="<%= Product._id %>" readonly required aria-label="Search"  class="form-control" >
+              <br>             
              
               
               <input type="number" id="quantity" value="1" aria-label="Search" class="form-control" style="width: 120px">
@@ -73,11 +74,12 @@
 <script>
 
   const paymentForm = document.getElementById('paymentForm');
+  const productId = document.getElementById('product-id').value;
   paymentForm.addEventListener("submit", payWithPaystack, false);
   function payWithPaystack(e) {
     e.preventDefault();
     let handler = PaystackPop.setup({
-      key: 'pk_test_49f9d7192d0f9ab259b11f151566b3ae10cc8444', // Replace with your public key
+      key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
       email: document.getElementById("email-address").value,
       amount: document.getElementById("amount").value * 100 * document.getElementById("quantity").value,
       currency: 'NGN',
@@ -97,7 +99,7 @@
       },
       onClose: function() {
   alert(' An error occured and the tranaction was not completed.');
-  window.location = `https://node-comm.herokuapp.com/product/${Product._id}`
+  window.location = `https://node-comm.herokuapp.com/product/${productId}`
 },
     });
     handler.openIframe();

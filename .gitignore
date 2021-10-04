@@ -130,3 +130,5 @@ re.js
 *.tar
 *.tar.gz
 func.js
+product.json
+update.js
