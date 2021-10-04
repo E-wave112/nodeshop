@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  web: 
+    image: ewave112/fastcontainer:prod
+    build:
+      context: .
+      target: prod
+    container_name: nodeshop
+    restart: always
+    ports: 
+      - "3000:3000"
+    volumes: 
+      - .:/app
+    env_file: 
+      - .env
+    environment:
+      - dbURI=${dbURI}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - CLOUD_NAME=${CLOUD_NAME}
+      - API_KEY=${API_KEY}
+      - API_SECRET=${API_SECRET}
+      - PAYSTACK_SECRET=${PAYSTACK_SECRET}
+      - PAYSTACK_PUBLIC=${PAYSTACK_PUBLIC}
+      - SENGRID_API_KEY=${SENDGRID_API_KEY}
+      - MAIL_TRAP_USER=${MAIL_TRAP_USER}
+      - MAIL_TRAP_PASS=${MAIL_TRAP_PASS}
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - JWT_TOKEN=${JWT_TOKEN}
+    networks: 
+      - nodecommerce-network
+
+
+networks: 
+  nodecommerce-network:
+    name: nodecommerce-network

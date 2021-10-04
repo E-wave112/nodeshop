@@ -1,0 +1,51 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.2.1
+  heroku: circleci/heroku@1.0.1
+jobs:
+  build-and-test:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run: 
+          name: Running npm test
+          command: |
+            npm run test
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t ewave112/fastcontainer:circleci .
+            docker images
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - run:
+          name: Storing previous commit in a txt file
+          command: |
+            git rev-parse HEAD > ./commit.txt
+      - heroku/install
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Pushing to heroku registry
+          command: |
+            heroku container:login
+            heroku container:push web --arg NODE_ENV=production -a $HEROKU_APP_NAME
+            heroku container:release web -a $HEROKU_APP_NAME
+workflows:
+  build-test-deploy:
+    jobs:
+      - build-and-test
+      - deploy:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - master
+

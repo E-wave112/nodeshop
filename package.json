@@ -1,0 +1,48 @@
+{
+  "name": "nodecommerce",
+  "version": "1.0.0",
+  "description": "an ecommmerce web application built with node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "jest --detectOpenHandles"
+  },
+  "keywords": [
+    "Ecommerce",
+    "online",
+    "shop"
+  ],
+  "author": "E-wave",
+  "license": "MIT",
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
+    "axios": "^0.21.4",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.27.0",
+    "compression": "^1.7.4",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "cross-env": "^7.0.3",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.4.1",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.7.1",
+    "mongoose": "^5.13.9",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "nodemailer": "^6.6.5",
+    "nodemon": "^2.0.13",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "supertest": "^6.1.6"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}

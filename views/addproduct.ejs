@@ -1,0 +1,89 @@
+<%- include('partials/prodpay') %> 
+<body>
+
+    <div class="form">
+        <form action="/add-product?_csrf=<%=csrfToken%>" class="form-control col s12" method="POST" enctype="multipart/form-data">
+            <div class="row">
+               
+                <div class="input-field">
+                    <label for="title">Name</label>
+                    
+                    <br>
+                    <input type="text" id="name" name="name" required> 
+                    
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div>
+                    <% if (categories.length > 0) { %>
+                        <label for="category"><h5>Category</h5></label>
+                    <select id="status" name="status">
+                            
+                        <% categories.forEach(category => { %>
+                        <option value="category"><%= category.category %></option>
+                       <% }) %>
+                    </select>
+                   
+                    <% } else { %> 
+                        <p>There are no categories to select</p>
+                        <% } %>
+                </div>
+            </div>
+
+    
+            <div class="row">
+                <div class="input-field" id="ckeditor">
+                    <h5>Product Description</h5>
+                    <textarea id="body" name="description"></textarea>
+                </div>
+            </div>
+    
+    
+            <div class="row">
+               
+                <div class="input-field">
+                    <label for="image"> Upload Product Image</label>
+                    <br>
+                    <br>
+                    <input type="file" name="image">
+                    
+                </div>
+            </div>
+
+    
+            <div class="row">
+               
+                <div class="input-field">
+                    <label for="price">Price</label>
+                    <br>
+                    
+                    <input type="number" id="price" name="price">
+                </div>
+            </div>
+    
+            <div class="row">
+                <input type="submit" value="Save" class="btn">
+                <a href="/" class="btn orange">Cancel</a>
+            </div>
+            
+
+        </form>
+    
+    </div>
+    <!-- SCRIPTS -->
+<!-- MDB core JavaScript -->
+<!-- <script type="text/javascript" src="js/mdb.min.js"></script> -->
+<script>
+    CKEDITOR.replace('ckeditor');
+</script> 
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Initializations -->
+<script>
+  // Animations initialization
+  new WOW().init();
+</script>
+<%- include('partials/footer') %>
