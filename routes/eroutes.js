@@ -124,13 +124,13 @@ router.get('/category', async (req, res) => {
 
 
 //get  product details
-router.get('/product/:id', csrfProtection, async (req, res) => {
+router.get('/product/:id', ensureAuth, requireAuth, csrfProtection, async (req, res) => {
 
     const id = mongoose.Types.ObjectId(req.params.id)
     const Product = await product.findById(id).populate('category').lean()
 
     try {
-        const ngnAmount = Product.price * 412;
+        const ngnAmount = Product.price * 435;
         res.render('product-page', {
             Product, ngnAmount, csrfToken: req.csrfToken()
         })
