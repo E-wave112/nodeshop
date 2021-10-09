@@ -40,7 +40,7 @@ describe('tests', () => {
     // expect(response.body._id).toBe(product.id);
     expect(res.header['content-type']).toBe('text/plain; charset=utf-8');
     expect(res.body).toBeTruthy();
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(302);
   });
 
 
