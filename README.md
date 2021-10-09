@@ -25,7 +25,7 @@ $ npm install
 ```
 ### Build the initial docker image
 ```
-docker-compose up --build
+$ docker-compose up --build
 ```
 ### Running the Dev Docker container
 
