@@ -9,19 +9,22 @@
     <div class="container">
 
       <!--Navbar-->
-      <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #929fba; color: white;">
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #929fba; color: white;">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Categories</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <% categories.forEach(category => { %>
-              <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/category?category=<%= category.category %>"><%= category.category %></a>
-              </li>
-              <% }) %>
+              <% categories.forEach(category=> { %>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/category?category=<%= category.category %>">
+                    <%= category.category %>
+                  </a>
+                </li>
+                <% }) %>
             </ul>
           </div>
         </div>
@@ -33,53 +36,59 @@
 
         <!--Grid row-->
         <div class="row wow fadeIn">
-          <% products.forEach(product =>{ %>
-           <!--Grid column-->
-           <div class="col-lg-3 col-md-6 mb-4">
+          <% products.forEach(product=>{ %>
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
 
-            <!--Card-->
-            <div class="card">
+              <!--Card-->
+              <div class="card">
 
-              <!--Card image-->
-              <div class="view overlay">
-                <img src="<%=product.image%>"  class="card-img-top" >
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
+                <!--Card image-->
+                <div class="view overlay">
+                  <img src="<%=product.image%>" class="card-img-top">
+                  <a>
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
+                </div>
+                <!--Card image-->
+
+                <!--Card content-->
+                <div class="card-body text-center">
+                  <!--Category & Title-->
+                  <a href="" class="grey-text">
+                    <h5>
+                      <%= product.category.category %>
+                    </h5>
+                  </a>
+                  <h5>
+                    <strong>
+                      <a href="/product/<%=product._id%>" class="dark-grey-text">
+                        <%= product.name %>
+                      </a>
+                    </strong>
+                  </h5>
+
+                  <h4 class="font-weight-bold blue-text">
+                    <strong>
+                      <%= product.price %>$
+                    </strong>
+                  </h4>
+
+                </div>
+                <!--Card content-->
+
               </div>
-              <!--Card image-->
-
-              <!--Card content-->
-              <div class="card-body text-center">
-                <!--Category & Title-->
-                <a href="" class="grey-text">
-                  <h5> <%= product.category.category %></h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="/product/<%=product._id%>" class="dark-grey-text"><%= product.name %></a>
-                  </strong>
-                </h5>
-
-                <h4 class="font-weight-bold blue-text">
-                  <strong><%= product.price %>$</strong>
-                </h4>
-
-              </div>
-              <!--Card content-->
+              <!--Card-->
 
             </div>
-            <!--Card-->
+            <!--Grid column-->
 
-          </div>
-          <!--Grid column-->
-
-     <%   }) %> 
+            <% }) %>
 
         </div>
         <!--Grid row-->
 
-       
+
 
       </section>
       <!--Section: Products v.3-->
@@ -127,4 +136,4 @@
     </div>
   </main>
   <!--Main layout-->
-  <%- include('partials/footer.ejs') -%> 
+  <%- include('partials/footer.ejs') -%>

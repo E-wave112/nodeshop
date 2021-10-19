@@ -71,7 +71,7 @@ router.get('/', async (req, res) => {
 //filter products by category
 router.get('/category', async (req, res) => {
 
-    let catees = [ 'shirts', 'sportwears', 'outwears', 'beverage', 'Footwears' ];
+    let catees = ['shirts', 'sportwears', 'outwears', 'beverage', 'Footwears'];
 
     let cates = [];
     //let productFilt;
@@ -83,7 +83,7 @@ router.get('/category', async (req, res) => {
         // if (!req.query.category === cat.category) {
         //     return res.redirect('/');
         // }
-        
+
         // productFilt = products.filter(product => product.category.category === cat.category);
         // console.log(productFilt);
     });
@@ -110,11 +110,11 @@ router.get('/category', async (req, res) => {
     //     if (!req.query.category === category) {
     //         return res.redirect('/');
     //     }
-        
+
     //     var productFilt = products.filter(product => product.category.category === category);
 
     // }
-    
+
 
     res.render('productfilter', {
         products, cates, productFilt
