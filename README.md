@@ -36,4 +36,6 @@ $ docker-compose up
 ```
 The app will be running at http://localhost:3000
 
+Find my Docker image on the cloud [here](https://hub.docker.com/repository/docker/ewave112/fastcontainer)
+
 A useful resource on how to push your docker image to [DockerHub](https://hub.docker.com)  can be found [here](https://ropenscilabs.github.io/r-docker-tutorial/04-Dockerhub.html)
