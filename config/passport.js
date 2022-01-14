@@ -9,7 +9,7 @@ module.exports = function (passport) {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: 'https://node-comm.herokuapp.com/auth/google/callback'
     }, async (accessToken, refreshToken, profile, done) => {
-        //console.log(profile)
+        console.log(profile)
         const newUser = {
             email:profile.emails[0].value,
             googleId: profile.id,
