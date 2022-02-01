@@ -8,10 +8,8 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages:
-        pkg-manager: npm
-
-      - run:
+      - node/install-packages
+      - run: 
           name: Running npm test
           command: |
             npm run test
@@ -50,3 +48,4 @@ workflows:
             branches:
               only:
                 - master
+
