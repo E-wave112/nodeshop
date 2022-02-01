@@ -9,9 +9,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-       - pkg-manager: npm
-      
-      - run: 
+        pkg-manager: npm
+
+      - run:
           name: Running npm test
           command: |
             npm run test
@@ -50,4 +50,3 @@ workflows:
             branches:
               only:
                 - master
-
