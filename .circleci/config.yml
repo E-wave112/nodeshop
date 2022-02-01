@@ -8,7 +8,9 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+       - pkg-manager: npm
+      
       - run: 
           name: Running npm test
           command: |
