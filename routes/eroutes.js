@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
 
     const products = await product.find({}).populate(['category', 'user']).sort({ createdAt: -1 }).lean();
     console.log(products);
-    const user = await User.find({}).lean()
+    const user = req.user
     limit = req.query.limit
     req.query.page = ~~(products.length / req.query.limit)
     console.log(req.query.page)
@@ -125,6 +125,7 @@ router.get('/category', async (req, res) => {
 
 //get  product details
 router.get('/product/:id', ensureAuth, csrfProtection, async (req, res) => {
+    const user = req.user
     const userEmail = req.user.email
     const firstName = req.user.firstName
     const lastName = req.user.lastName
@@ -134,9 +135,9 @@ router.get('/product/:id', ensureAuth, csrfProtection, async (req, res) => {
     try {
         const ngnAmount = Product.price * 425;
         res.render('product-page', {
-            Product,userEmail, ngnAmount,firstName,lastName, csrfToken: req.csrfToken()
+            Product,userEmail,user, ngnAmount,firstName,lastName, csrfToken: req.csrfToken()
         })
-        console.log(Product, ngnAmount)
+        
     } catch (err) {
         console.error(err)
         res.render('error/404')
