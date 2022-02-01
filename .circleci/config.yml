@@ -9,6 +9,10 @@ jobs:
     steps:
       - checkout
       - node/install-packages
+      - run:
+         name: installing packages
+         command: |
+          npm install
       - run: 
           name: Running npm test
           command: |
