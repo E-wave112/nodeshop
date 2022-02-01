@@ -62,19 +62,19 @@
             </a>
           </li>
 
+          <% if (user){ %>
           <li class="nav-item">
             <a href="/auth/logout" class="nav-link border border-light rounded waves-effect">
               <i class="fas fa-sign-out-alt"></i>Log-Out
             </a>
           </li>
-
-
-
+          <% } else { %>
           <li class="nav-item">
             <a href="/auth/google" class="nav-link border border-light rounded waves-effect">
               <i class="fas fa-sign-in-alt"></i>Log-In
             </a>
           </li>
+          <% } %>
 
 
 
