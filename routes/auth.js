@@ -3,7 +3,10 @@ const router = require('express').Router();
 const passport = require('passport')
 //intitialize google auth
 
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
+router.get('/google', passport.authenticate('google', { scope: [
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/userinfo.email'
+] }))
 
 
 //call back route with /auth/google/callback
