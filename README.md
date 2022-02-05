@@ -8,7 +8,7 @@ Functionalities include:
 - The ability for users to make live payments via the integrated [paystack](https://paystack.com/) payment gateway
 - The ability for users to filter products based on their categories and purchase any quantity of any product.
 - A notification is email sent asynchronously to users on completion of ordering or fully purchasing a product.
-- A Google Oauth authentication pipeline to verify user's credentials
+- A Google Oauth 2.0 authentication pipeline to verify user's credentials
 
 To get started with this project clone the repo by running the command git clone https://github.com/E-wave112/nodeshop.git or downloading the zip file
 
