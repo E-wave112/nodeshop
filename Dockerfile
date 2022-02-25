@@ -1,4 +1,4 @@
-from node:15-alpine3.10 as prod
+from node:17.5-bullseye-slim as prod
 
 WORKDIR /app
 
