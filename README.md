@@ -4,7 +4,6 @@ An ecommerce web application variant developed using NodeJS, Express, MongoDB, [
 
 
 Functionalities include:
-- The ability for users to store items in a cart
 - The ability for users to make live payments via [paystack](https://paystack.com/) payment gateway
 - The ability for users to filter products based on their categories and purchase any quantity of any product.
 - A notification is email sent asynchronously to users on completion of ordering or fully purchasing a product.
