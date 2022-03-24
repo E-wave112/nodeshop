@@ -1,4 +1,4 @@
-**Node Shop**
+### Node Shop
 
 An ecommerce web application variant developed using NodeJS, Express, MongoDB, [Docker](https://docs.docker.com/), and [CircleCI](https://circleci.com/) as a CI/CD pipeline
 
