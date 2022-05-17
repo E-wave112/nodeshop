@@ -8,7 +8,6 @@
  *
  */
 
-
 /*******************************
              Flag
 *******************************/
@@ -24,20 +23,19 @@ i.flag:not(.icon) {
   speak: none;
   font-smoothing: antialiased;
   -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* Sprite */
 i.flag:not(.icon):before {
   display: inline-block;
-  content: '';
+  content: "";
   background: url("https://mdbootstrap.com/img/svg/flags.png") no-repeat -108px -1976px;
   width: 16px;
   height: 11px;
 }
 
 /* Flag Sprite Based On http://www.famfamfam.com/lab/icons/flags/ */
-
 
 /*******************************
          Theme Overrides
@@ -1029,8 +1027,6 @@ i.flag.zimbabwe:before {
   background-position: -108px -390px;
 }
 
-
 /*******************************
          Site Overrides
 *******************************/
-

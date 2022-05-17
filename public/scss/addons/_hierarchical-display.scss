@@ -15,7 +15,12 @@
 
 .animation.zoomedIn,
 .animation.zoomedOut {
-  animation-timing-function: cubic-bezier(.55, 0, .1, 1); // "Swift Out" easing curve
+  animation-timing-function: cubic-bezier(
+    0.55,
+    0,
+    0.1,
+    1
+  ); // "Swift Out" easing curve
 }
 
 @keyframes zoomedIn {
@@ -43,4 +48,3 @@
 .zoomedOut {
   animation-name: zoomedOut;
 }
-

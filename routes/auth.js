@@ -1,29 +1,34 @@
 //route handlers for google auth
-const router = require('express').Router();
-const passport = require('passport')
+const router = require("express").Router();
+const passport = require("passport");
 //intitialize google auth
 
-router.get('/google', passport.authenticate('google', { scope: [
-  'https://www.googleapis.com/auth/userinfo.profile',
-  'https://www.googleapis.com/auth/userinfo.email'
-] }))
-
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ],
+  })
+);
 
 //call back route with /auth/google/callback
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect('/')
-
-  })
+    res.redirect("/");
+  }
+);
 // Successful authentication, redirect home.
 
 //logout users
 
-router.get('/logout', (req, res) => {
-  req.logout()
-  res.redirect('/login')
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 
-})
-
-module.exports = router
+module.exports = router;

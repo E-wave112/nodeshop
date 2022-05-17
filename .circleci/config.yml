@@ -10,15 +10,15 @@ jobs:
       - checkout
       - node/install-packages
       - run:
-         name: installing packages
-         command: |
-          npm install
-      - run: 
+          name: installing packages
+          command: |
+            npm install
+      - run:
           name: Running npm test
           command: |
             npm run test
       - setup_remote_docker:
-          version: 18.06.0-ce
+          version: 20.10.6
       - run:
           name: Build Docker image
           command: |
@@ -34,7 +34,7 @@ jobs:
             git rev-parse HEAD > ./commit.txt
       - heroku/install
       - setup_remote_docker:
-          version: 18.06.0-ce
+          version: 20.10.6
       - run:
           name: Pushing to heroku registry
           command: |
@@ -52,4 +52,3 @@ workflows:
             branches:
               only:
                 - master
-

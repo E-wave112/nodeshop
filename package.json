@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "format": "prettier --write '**/*.{js,json,md,yml,yaml,css,scss,html}'",
     "test": "jest --detectOpenHandles"
   },
   "engines": {
@@ -46,6 +47,10 @@
     "supertest": "^6.1.6"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^26.6.3",
+    "prettier": "2.6.2"
   }
 }

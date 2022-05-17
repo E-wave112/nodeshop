@@ -10,7 +10,11 @@
   border-radius: $border-radius-base;
   box-shadow: $z-depth-1;
   transition: $btn-transition;
-  @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic);
+  @include button-size(
+    $btn-padding-y-basic,
+    $btn-padding-x-basic,
+    $btn-font-size-basic
+  );
 
   @include hover-focus-active {
     outline: 0;
@@ -33,13 +37,25 @@
   }
 
   &.btn-lg {
-    @include button-size($btn-padding-y-large, $btn-padding-x-large, $btn-font-size-large);
+    @include button-size(
+      $btn-padding-y-large,
+      $btn-padding-x-large,
+      $btn-font-size-large
+    );
   }
   &.btn-md {
-    @include button-size($btn-padding-y-medium, $btn-padding-x-medium, $btn-font-size-medium);
+    @include button-size(
+      $btn-padding-y-medium,
+      $btn-padding-x-medium,
+      $btn-font-size-medium
+    );
   }
   &.btn-sm {
-    @include button-size($btn-padding-y-small, $btn-padding-x-small, $btn-font-size-small);
+    @include button-size(
+      $btn-padding-y-small,
+      $btn-padding-x-small,
+      $btn-font-size-small
+    );
   }
 
   &.disabled,
@@ -99,4 +115,3 @@
 .show > .btn-warning.dropdown-toggle {
   color: $white-base;
 }
-

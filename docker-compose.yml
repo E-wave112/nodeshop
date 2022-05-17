@@ -1,18 +1,18 @@
 version: "3.7"
 
 services:
-  web: 
+  web:
     image: ewave112/fastcontainer:prod
     build:
       context: .
       target: prod
     container_name: nodeshop
     restart: always
-    ports: 
+    ports:
       - "3000:3000"
-    volumes: 
+    volumes:
       - .:/app
-    env_file: 
+    env_file:
       - .env
     environment:
       - dbURI=${dbURI}
@@ -29,10 +29,9 @@ services:
       - MAIL_TRAP_PASS=${MAIL_TRAP_PASS}
       - ADMIN_TOKEN=${ADMIN_TOKEN}
       - JWT_TOKEN=${JWT_TOKEN}
-    networks: 
+    networks:
       - nodecommerce-network
 
-
-networks: 
+networks:
   nodecommerce-network:
     name: nodecommerce-network

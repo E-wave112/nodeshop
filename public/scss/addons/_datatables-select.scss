@@ -23,7 +23,8 @@ table {
         background-color: #b0bed9;
       }
     }
-    &.stripe, &.display {
+    &.stripe,
+    &.display {
       tbody > tr.odd {
         &.selected,
         > .selected {
@@ -31,7 +32,8 @@ table {
         }
       }
     }
-    &.hover, &.display {
+    &.hover,
+    &.display {
       tbody > tr {
         &.selected:hover,
         > .selected:hover {
@@ -39,10 +41,13 @@ table {
         }
       }
     }
-    &.order-column, &.display {
+    &.order-column,
+    &.display {
       tbody > tr {
         &.selected > {
-          .sorting_1, .sorting_2, .sorting_3 {
+          .sorting_1,
+          .sorting_2,
+          .sorting_3 {
             background-color: #acbad5;
           }
         }
@@ -51,52 +56,66 @@ table {
         }
       }
     }
-    &.display, &.order-column.stripe {
+    &.display,
+    &.order-column.stripe {
       tbody > tr {
         &.odd.selected > .sorting_1 {
           background-color: #a6b4cd;
         }
       }
     }
-    &.display tbody > tr.odd.selected > .sorting_2, &.order-column.stripe tbody > tr.odd.selected > .sorting_2 {
+    &.display tbody > tr.odd.selected > .sorting_2,
+    &.order-column.stripe tbody > tr.odd.selected > .sorting_2 {
       background-color: #a8b5cf;
     }
-    &.display tbody > tr.odd.selected > .sorting_3, &.order-column.stripe tbody > tr.odd.selected > .sorting_3 {
+    &.display tbody > tr.odd.selected > .sorting_3,
+    &.order-column.stripe tbody > tr.odd.selected > .sorting_3 {
       background-color: #a9b7d1;
     }
-    &.display tbody > tr.even.selected > .sorting_1, &.order-column.stripe tbody > tr.even.selected > .sorting_1 {
+    &.display tbody > tr.even.selected > .sorting_1,
+    &.order-column.stripe tbody > tr.even.selected > .sorting_1 {
       background-color: #acbad5;
     }
-    &.display tbody > tr.even.selected > .sorting_2, &.order-column.stripe tbody > tr.even.selected > .sorting_2 {
+    &.display tbody > tr.even.selected > .sorting_2,
+    &.order-column.stripe tbody > tr.even.selected > .sorting_2 {
       background-color: #aebcd6;
     }
-    &.display tbody > tr.even.selected > .sorting_3, &.order-column.stripe tbody > tr.even.selected > .sorting_3 {
+    &.display tbody > tr.even.selected > .sorting_3,
+    &.order-column.stripe tbody > tr.even.selected > .sorting_3 {
       background-color: #afbdd8;
     }
-    &.display tbody > tr.odd > .selected, &.order-column.stripe tbody > tr.odd > .selected {
+    &.display tbody > tr.odd > .selected,
+    &.order-column.stripe tbody > tr.odd > .selected {
       background-color: #a6b4cd;
     }
-    &.display tbody > tr.even > .selected, &.order-column.stripe tbody > tr.even > .selected {
+    &.display tbody > tr.even > .selected,
+    &.order-column.stripe tbody > tr.even > .selected {
       background-color: #acbad5;
     }
-    &.display tbody > tr.selected:hover > .sorting_1, &.order-column.hover tbody > tr.selected:hover > .sorting_1 {
+    &.display tbody > tr.selected:hover > .sorting_1,
+    &.order-column.hover tbody > tr.selected:hover > .sorting_1 {
       background-color: #a2aec7;
     }
-    &.display tbody > tr.selected:hover > .sorting_2, &.order-column.hover tbody > tr.selected:hover > .sorting_2 {
+    &.display tbody > tr.selected:hover > .sorting_2,
+    &.order-column.hover tbody > tr.selected:hover > .sorting_2 {
       background-color: #a3b0c9;
     }
-    &.display tbody > tr.selected:hover > .sorting_3, &.order-column.hover tbody > tr.selected:hover > .sorting_3 {
+    &.display tbody > tr.selected:hover > .sorting_3,
+    &.order-column.hover tbody > tr.selected:hover > .sorting_3 {
       background-color: #a5b2cb;
     }
-    &.display, &.order-column.hover {
+    &.display,
+    &.order-column.hover {
       tbody > tr {
-        &:hover > .selected, > .selected:hover {
+        &:hover > .selected,
+        > .selected:hover {
           background-color: #a2aec7;
         }
       }
     }
     tbody {
-      td, th {
+      td,
+      th {
         &.select-checkbox {
           position: relative;
           &:before,
@@ -126,7 +145,8 @@ table {
         margin-top: 0;
         margin-left: -4px;
         text-align: center;
-        text-shadow: 1px 1px #b0bed9, -1px -1px #b0bed9, 1px -1px #b0bed9, -1px 1px #b0bed9;
+        text-shadow: 1px 1px #b0bed9, -1px -1px #b0bed9, 1px -1px #b0bed9,
+          -1px 1px #b0bed9;
         content: "\2714";
       }
     }
@@ -134,14 +154,16 @@ table {
 }
 
 div.dataTables_wrapper span {
-  &.select-info, &.select-item {
-    margin-left: .5em;
+  &.select-info,
+  &.select-item {
+    margin-left: 0.5em;
   }
 }
 
 @media screen and (max-width: 640px) {
   div.dataTables_wrapper span {
-    &.select-info, &.select-item {
+    &.select-info,
+    &.select-item {
       display: block;
       margin-left: 0;
     }

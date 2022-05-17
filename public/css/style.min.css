@@ -1,9 +1,29 @@
-.view,body,html{height:100%}.carousel{height:50%}.carousel .carousel-inner,.carousel .carousel-inner .active,.carousel .carousel-inner .carousel-item{height:100%}@media (max-width:776px){.carousel{height:100%}}.page-footer{background-color:#929FBA}
+.view,
+body,
+html {
+  height: 100%;
+}
+.carousel {
+  height: 50%;
+}
+.carousel .carousel-inner,
+.carousel .carousel-inner .active,
+.carousel .carousel-inner .carousel-item {
+  height: 100%;
+}
+@media (max-width: 776px) {
+  .carousel {
+    height: 100%;
+  }
+}
+.page-footer {
+  background-color: #929fba;
+}
 
-.login-container{
-    width: 400px;
-    margin-top: 50px;
-    text-align: center;
+.login-container {
+  width: 400px;
+  margin-top: 50px;
+  text-align: center;
 }
 
 html,
@@ -18,7 +38,6 @@ header,
 }
 
 @media (max-width: 740px) {
-
   html,
   body,
   header,
@@ -28,7 +47,6 @@ header,
 }
 
 @media (min-width: 800px) and (max-width: 850px) {
-
   html,
   body,
   header,
@@ -38,9 +56,8 @@ header,
 }
 
 .form-control {
-  display:table;/* shrinks to fit content */
-  margin:auto;
-
+  display: table; /* shrinks to fit content */
+  margin: auto;
 }
 
 #paymentForm {
@@ -48,22 +65,19 @@ header,
   margin: auto;
 }
 
-
 select {
-  display: block  !important;
+  display: block !important;
 }
-
 
 .copyright {
-  text-align:center;
-  }
+  text-align: center;
+}
 label {
-  text-align:center !important;
+  text-align: center !important;
 }
 
-.pay{
+.pay {
   text-align: center !important;
-
 }
 #paymentForm {
   display: table !important;
