@@ -69,6 +69,7 @@ router.get("/", async (req, res) => {
 //filter products by category
 router.get("/category", async (req, res) => {
   let catees = ["shirts", "sportwears", "outwears", "beverage", "Footwears"];
+  const user = req.user;
 
   let cates = [];
   //let productFilt;
@@ -130,6 +131,7 @@ router.get("/category", async (req, res) => {
     products,
     cates,
     productFilt,
+    user
   });
 });
 
