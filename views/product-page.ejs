@@ -98,12 +98,14 @@
           alert('Window closed, payment successful !');
         },
         callback: function (response) {
-          let message = 'Payment complete! here is your Reference number: ' + response.ref;
+          console.log(response);
+          let message = 'Payment complete! here is your Reference number: ' + response.reference;
           alert(message);
         },
         //make an ajax call to the server to validate the transaction
         callback: function (response) {
-          window.location = "https://node-comm.herokuapp.com/process/complete?reference=" + response.ref;
+          console.log(response);
+          window.location = "https://node-comm.herokuapp.com/process/complete?reference=" + response.reference;
 
         },
         onClose: function () {

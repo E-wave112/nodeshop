@@ -236,16 +236,6 @@ router.post(
         }
       }
     );
-    // try {
-    //     req.body.user = req.user.id
-    //     await payment.create(req.body)
-    //     res.redirect('/payment/payment_complete')
-    // }
-
-    // catch (err){
-    //     console.error(err)
-    //     res.render('error/500')
-    // }
   }
 );
 

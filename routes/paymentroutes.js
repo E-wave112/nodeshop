@@ -30,7 +30,7 @@ router.use(bodyParser.json());
 const csrfProtection = csrf({ cookie: true });
 
 //route for completed payment
-router.get("/complete", (req, res) => {
+router.get("/complete", ensureAuth, (req, res) => {
   if (!req.query.reference) {
     res.redirect("/");
   }
