@@ -6,7 +6,8 @@ const { sendEmail } = require("../config/sendgrid");
 
 // Using Express
 router.post("/validate", async function (req, res) {
-  console.log(req.body);
+  console.log("body", req.body);
+  console.log("secret", secret);
   //validate event
   const hash = crypto
     .createHmac("sha512", secret)
