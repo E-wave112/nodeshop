@@ -31,10 +31,13 @@ const csrfProtection = csrf({ cookie: true });
 
 //route for completed payment
 router.get("/complete", ensureAuth, (req, res) => {
+  const user = req.user;
   if (!req.query.reference) {
     res.redirect("/");
   }
-  res.render("payment/payment_complete");
+  res.render("payment/payment_complete", {
+    user
+  });
 });
 
 module.exports = router;
