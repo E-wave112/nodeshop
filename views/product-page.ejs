@@ -88,7 +88,7 @@
     function payWithPaystack(e) {
       e.preventDefault();
       let handler = PaystackPop.setup({
-        key: 'pk_live_5242f7d45f213138b2f551d68c4c0ceb5558e65a', // Replace with your public key
+        key: 'pk_test_49f9d7192d0f9ab259b11f151566b3ae10cc8444', // Replace with your public key
         email: document.getElementById("email-address").value,
         amount: document.getElementById("amount").value * 100 * document.getElementById("quantity").value,
         currency: 'NGN',
