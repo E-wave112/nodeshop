@@ -104,8 +104,12 @@
           window.location = "https://node-comm.herokuapp.com/process/complete?reference=" + response.reference;
           fetch('https://node-comm.herokuapp.com/process/complete-transaction', {
             method: 'POST',
+          headers: {
+            Accept: 'application/json; charset=utf-8',
+            'Content-Type': 'application/json'
+          },
             body:JSON.stringify({
-              ...response
+              response
             })
           });
         },
