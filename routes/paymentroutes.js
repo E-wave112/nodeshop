@@ -41,7 +41,7 @@ router.get("/complete", ensureAuth, (req, res) => {
 });
 
 router.post("/complete-transaction", ensureAuth, (req, res) => {
-  console.log(req.body);
+  console.log("body", req.body);
   return res.status(200).json({ data: req.body });
 });
 
