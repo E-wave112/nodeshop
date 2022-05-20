@@ -36,8 +36,13 @@ router.get("/complete", ensureAuth, (req, res) => {
     res.redirect("/");
   }
   res.render("payment/payment_complete", {
-    user
+    user,
   });
+});
+
+router.post("/complete-transaction", ensureAuth, (req, res) => {
+  console.log(req.body);
+  return res.status(200).json({ data: req.body });
 });
 
 module.exports = router;

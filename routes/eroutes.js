@@ -7,9 +7,7 @@ const { ensureAuth } = require("../middleware/auth");
 const product = require("../models/product");
 const Category = require("../models/category");
 const cloudinary = require("../utils/cloudinary");
-const User = require("../models/User");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
 const async = require("async");
 const upload = require("../utils/multer");
 const payment = require("../models/paymodel");
@@ -18,16 +16,6 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const { requireAuth } = require("../admin/adminMiddleware/auth");
 // const exchangeRate = require('../utils/currency_conv');
-
-//create a global transport object
-let transport = {
-  host: "smtp.mailtrap.io",
-  port: 2525,
-  auth: {
-    user: process.env.MAIL_TRAP_USER,
-    pass: process.env.MAIL_TRAP_PASS,
-  },
-};
 
 // error handler
 router.use(function (err, req, res, next) {
@@ -81,13 +69,6 @@ router.get("/category", async (req, res) => {
   const categories = await Category.find({}).sort({ createdAt: -1 }).lean();
   categories.forEach((cat) => {
     cates.push(cat.category);
-
-    // if (!req.query.category === cat.category) {
-    //     return res.redirect('/');
-    // }
-
-    // productFilt = products.filter(product => product.category.category === cat.category);
-    // console.log(productFilt);
   });
   const category = req.query.category;
   switch (category) {
@@ -117,21 +98,12 @@ router.get("/category", async (req, res) => {
       );
       break;
   }
-  // console.log(cates)
-  // for (let category of cates) {
-  //     if (!req.query.category === category) {
-  //         return res.redirect('/');
-  //     }
-
-  //     var productFilt = products.filter(product => product.category.category === category);
-
-  // }
 
   res.render("productfilter", {
     products,
     cates,
     productFilt,
-    user
+    user,
   });
 });
 
@@ -145,7 +117,7 @@ router.get("/product/:id", ensureAuth, csrfProtection, async (req, res) => {
   const Product = await product.findById(id).populate("category").lean();
 
   try {
-    const ngnAmount = Product.price * 425;
+    const ngnAmount = Product.price * 500;
     res.render("product-page", {
       Product,
       userEmail,
@@ -187,45 +159,6 @@ router.post(
             done(err, pay);
           });
         },
-        function (pay, done) {
-          if (!process.env.NODE_ENV === "production") {
-            let transporter = nodemailer.createTransport(transport);
-            // send mail with defined transport object
-            let info = transporter.sendMail(
-              {
-                from: "iyayiemmanuel1@gmail.com", // sender address
-                to: pay.email, // list of receivers
-                subject: "Notice of a Transaction", // Subject line,
-                html: `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`, // html body
-              },
-              (err, info) => {
-                if (err) {
-                  console.error(err);
-                } else {
-                  console.log(info);
-                }
-                done(err, "done");
-              }
-            );
-          } else {
-            const msg = {
-              to: pay.email, // Change to your recipient
-              from: "iyayiemmanuel1@gmail.com", // Change to your verified sender
-              subject: "Notice of a Transaction",
-              text: `Dear ${pay.firstname} your payment has been recieved and verified !`,
-              html: `<b>Dear ${pay.firstname} your payment has been recieved and verified !</b>`,
-            };
-
-            sgMail
-              .send(msg)
-              .then(() => {
-                console.log("Email sent");
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          }
-        },
       ],
       function (err) {
         if (err) {
@@ -233,8 +166,7 @@ router.post(
           res.redirect("/");
           return next(err);
         } else {
-          console.log("data", data);
-          res.redirect("/process/complete");
+          return res.redirect("/process/complete");
         }
       }
     );
