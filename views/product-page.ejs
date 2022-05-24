@@ -109,7 +109,7 @@
             'Content-Type': 'application/json'
           },
             body:JSON.stringify({
-              ...response, amount: Product.amount, user:user._id, product:Product._id
+              response, amount: Product.amount, user:user._id, product:Product._id
             })
           });
         },
