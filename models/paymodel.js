@@ -5,10 +5,12 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  product: {
+    type: mongoose.Types.ObjectId,
+    ref: "Product",
+  },
   amount: Number,
-  email: String,
-  firstname: String,
-  lastname: String,
+  status: String,
 });
 
 module.exports = mongoose.model("payments", paymentSchema);
