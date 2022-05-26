@@ -1,7 +1,6 @@
 //a primer on unit testing
 const supertest = require("supertest");
 const app = require("../app");
-const Product = require("../models/product");
 const mongoose = require("mongoose");
 
 jest.setTimeout(30000);

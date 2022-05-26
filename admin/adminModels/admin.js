@@ -24,11 +24,7 @@ const adminSchema = new mongoose.Schema({
   },
 });
 
-//fire a function after doc has been saved to db
-// userSchema.post('save',function (doc, next){
-//     console.log('new user was created & saved', doc)
-//     next();
-// })
+
 
 //fire a function before doc has been saved to db
 adminSchema.pre("save", async function (next) {
@@ -37,7 +33,7 @@ adminSchema.pre("save", async function (next) {
   next();
 });
 
-//static method to login user
+
 // static method to login user
 adminSchema.statics.login = async function (mail, password) {
   const user = await this.findOne({ mail });
