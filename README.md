@@ -2,7 +2,7 @@
 
 An ecommerce web application variant developed using NodeJS, Express, MongoDB, [Docker](https://docs.docker.com/), and [CircleCI](https://circleci.com/) as a CI/CD pipeline
 
-Functionalities include:
+#### Functionalities
 
 - The ability for users to make live payments via [paystack](https://paystack.com/) payment gateway
 - The ability for users to filter products based on their categories and purchase any quantity of any product.
@@ -13,12 +13,12 @@ To get started with this project clone the repo by running the command git clone
 
 In the root of the project run the following command
 
-```
 recommended
+```
 $ yarn
 ```
 
-or
+or with npm
 
 ```
 $ npm install
