@@ -6,14 +6,22 @@ const authControllers = require('../controllers/auth');
 
 router.get(
   "/google",
-  authControllers.googleAuth()
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ],
+  })
 );
 
 //call back route with /auth/google/callback
 
 router.get(
   "/google/callback",
-  authControllers.googleAuthCallback()
+  passport.authenticate("google", { failureRedirect: "/login" }),
+    (req, res) => {
+        res.redirect("/");
+    }
 );
 // Successful authentication, redirect home.
 
