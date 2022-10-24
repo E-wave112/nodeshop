@@ -14,6 +14,7 @@ To get started with this project clone the repo by running the command git clone
 In the root of the project run the following command
 
 recommended
+
 ```
 $ yarn
 ```

@@ -1,7 +1,7 @@
 //route handlers for google auth
 const router = require("express").Router();
 const passport = require("passport");
-const authControllers = require('../controllers/auth');
+const authControllers = require("../controllers/auth");
 //intitialize google auth
 
 router.get(
@@ -19,9 +19,9 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
-    (req, res) => {
-        res.redirect("/");
-    }
+  (req, res) => {
+    res.redirect("/");
+  }
 );
 // Successful authentication, redirect home.
 

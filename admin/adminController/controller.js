@@ -24,7 +24,6 @@ const handleErrors = (err) => {
   if (err.message.includes("data validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
-      //console.log(properties)
     });
   }
   return errors;

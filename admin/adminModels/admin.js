@@ -24,15 +24,12 @@ const adminSchema = new mongoose.Schema({
   },
 });
 
-
-
 //fire a function before doc has been saved to db
 adminSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
-
 
 // static method to login user
 adminSchema.statics.login = async function (mail, password) {
