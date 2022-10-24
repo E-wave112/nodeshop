@@ -9,7 +9,6 @@ const requireAuth = (req, res, next) => {
       if (err) {
         res.redirect("/admin/login");
       } else {
-        console.log(decodedToken);
         next();
       }
     });
@@ -27,7 +26,6 @@ const checkUser = (req, res, next) => {
         res.locals.user = null;
         next();
       } else {
-        console.log(decodedToken);
         let user = await Admin.findById(decodedToken.id);
         res.locals.user = user;
         next();

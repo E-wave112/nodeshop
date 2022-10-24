@@ -4,19 +4,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
 const { ensureAuth } = require("../middleware/auth");
-const product = require("../models/product");
-const Category = require("../models/category");
-const cloudinary = require("../utils/cloudinary");
-const mongoose = require("mongoose");
-const async = require("async");
 const upload = require("../utils/multer");
-const payment = require("../models/paymodel");
-const axios = require("axios");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const { requireAuth } = require("../admin/adminMiddleware/auth");
-const productControllers = require('../controllers/econtrollers');
-// const exchangeRate = require('../utils/currency_conv');
+const productControllers = require("../controllers/econtrollers");
 
 // error handler
 router.use(function (err, req, res, next) {
@@ -42,7 +34,12 @@ router.get("/", productControllers.getAllProducts);
 router.get("/category", productControllers.filterProductsByCategory);
 
 //get  product details
-router.get("/product/:id", ensureAuth, csrfProtection, productControllers.getProductById);
+router.get(
+  "/product/:id",
+  ensureAuth,
+  csrfProtection,
+  productControllers.getProductById
+);
 
 //post request for payment
 router.post(
