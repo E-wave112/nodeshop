@@ -1,4 +1,4 @@
-from node:16.14.0-bullseye-slim as prod
+from node:16.20.2-bullseye-slim as prod
 
 WORKDIR /app
 
