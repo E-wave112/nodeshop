@@ -20,8 +20,8 @@
   "author": "E-wave",
   "license": "MIT",
   "dependencies": {
-    "@sendgrid/mail": "^7.4.7",
-    "axios": "^0.25.0",
+    "@sendgrid/mail": "^8.0.0",
+    "axios": "^1.6.4",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.27.0",
     "compression": "^1.7.4",
