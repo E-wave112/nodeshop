@@ -20,7 +20,7 @@
   "author": "E-wave",
   "license": "MIT",
   "dependencies": {
-    "@sendgrid/mail": "^7.4.7",
+    "@sendgrid/mail": "^8.0.0",
     "axios": "^0.25.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.27.0",
@@ -39,7 +39,7 @@
     "mongodb": "^3.7.1",
     "mongoose": "^5.13.9",
     "morgan": "^1.10.0",
-    "multer": "^1.4.3",
+    "multer": "^2.0.1",
     "nodemailer": "^6.6.5",
     "nodemon": "^2.0.13",
     "passport": "^0.5.2",
